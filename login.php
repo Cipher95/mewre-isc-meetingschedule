@@ -62,6 +62,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="password" name="password" placeholder="<?php echo t('password'); ?>" required>
             <button type="submit"><?php echo t('login'); ?></button>
         </form>
+        <p style="margin-top: 15px;">
+            <a href="register.php" style="color: #28a745; font-weight: bold; text-decoration: none;">
+                <i class="fa-solid fa-user-plus"></i> <?php echo t('create_account'); ?>
+            </a>
+        </p>
         
         <p style="margin-top: 20px;">
             <a href="index.php" style="color: #004b87; text-decoration: none;">

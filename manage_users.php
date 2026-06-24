@@ -1,0 +1,85 @@
+<?php
+require 'lang.php';
+require 'db.php';
+
+// strictly ADMIN ONLY
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'Admin') {
+    die("<h1 style='color:red;text-align:center;margin-top:50px;'>" . t('admin_only') . "</h1>");
+}
+
+$success = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
+    $user_id = intval($_POST['user_id']);
+    $new_role = $conn->real_escape_string($_POST['role']);
+
+    // Prevent Admin from accidentally removing their own Admin role
+    if ($_SESSION['user_id'] == $user_id && $new_role !== 'Admin') {
+        $success = "<span style='color:red;'>You cannot demote yourself.</span>";
+    } else {
+        $conn->query("UPDATE users SET role='$new_role' WHERE id=$user_id");
+        $success = "<span style='color:green;'>" . t('role_updated') . "</span>";
+    }
+}
+
+$users_result = $conn->query("SELECT * FROM users ORDER BY role ASC, full_name ASC");
+?>
+
+<!DOCTYPE html>
+<html lang="<?php echo $lang; ?>" dir="<?php echo t('dir'); ?>">
+<head>
+    <meta charset="UTF-8">
+    <title><?php echo t('manage_users'); ?> | Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; font-family: <?php echo t('font'); ?>; }
+        body { background: #f8f9fa; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { color: #004b87; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: <?php echo $lang == 'ar' ? 'right' : 'left'; ?>; }
+        th { background-color: #333; color: white; }
+        select { padding: 5px; border-radius: 4px; }
+        .btn-update { background: #004b87; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-update:hover { background: #e5b13a; color: #333; }
+        .btn-back { display: inline-block; margin-top: 20px; background: #666; color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2><i class="fa-solid fa-users-gear"></i> <?php echo t('manage_users'); ?></h2>
+        <?php if($success) echo "<p>$success</p>"; ?>
+        
+        <table>
+            <tr>
+                <th><?php echo t('employee_name'); ?></th>
+                <th><?php echo t('username'); ?></th>
+                <th><?php echo t('user_role'); ?></th>
+                <th><?php echo t('action'); ?></th>
+            </tr>
+            <?php while($u = $users_result->fetch_assoc()): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($u['full_name']); ?></td>
+                <td><?php echo htmlspecialchars($u['username']); ?></td>
+                <td>
+                    <form method="POST" action="" style="display:flex; gap:10px; align-items:center;">
+                        <input type="hidden" name="user_id" value="<?php echo $u['id']; ?>">
+                        <select name="role">
+                            <option value="User" <?php if($u['role'] == 'User') echo 'selected'; ?>>User</option>
+                            <option value="Moderator" <?php if($u['role'] == 'Moderator') echo 'selected'; ?>>Moderator</option>
+                            <option value="Admin" <?php if($u['role'] == 'Admin') echo 'selected'; ?>>Admin</option>
+                        </select>
+                </td>
+                <td>
+                        <button type="submit" class="btn-update"><i class="fa-solid fa-check"></i> <?php echo t('update_role'); ?></button>
+                    </form>
+                </td>
+            </tr>
+            <?php endwhile; ?>
+        </table>
+        
+        <a href="schedules.php" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
+    </div>
+</body>
+</html>

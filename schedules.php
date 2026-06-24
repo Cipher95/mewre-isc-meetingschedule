@@ -88,7 +88,7 @@ $result = $conn->query($sql);
         <!-- New Flex Header with Add Button -->
         <div class="header-flex">
             <h2><?php echo t('all_schedules'); ?> (Admin / Moderator)</h2>
-            <a href="add_meeting.php" class="btn-add"><i class="fa-solid fa-plus"></i> <?php echo t('add_meeting'); ?></a>
+            <a href="manage_users.php" class="btn-edit" style="padding: 10px 15px; margin-right: 10px; font-weight:bold; background:#333; color:white;"><i class="fa-solid fa-users-gear"></i> <?php echo t('manage_users'); ?></a>
         </div>
 
         <?php if ($result->num_rows > 0): ?>

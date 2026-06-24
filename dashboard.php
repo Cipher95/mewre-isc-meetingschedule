@@ -78,6 +78,7 @@ $result = $conn->query($sql);
         <?php else: ?>
             <p><?php echo t('no_meetings'); ?></p>
         <?php endif; ?>
+        <a href="profile.php" class="btn-pay" style="margin-top: 30px; display: inline-block; background: #004b87;"><i class="fa-solid fa-user-pen"></i> <?php echo t('my_profile'); ?></a>
 
         <a href="logout.php" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> <?php echo t('logout'); ?></a>
     </div>
