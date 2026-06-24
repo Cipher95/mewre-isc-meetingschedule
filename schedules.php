@@ -8,9 +8,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-// 2. SERVER-SIDE PROTECTION: Block standard Users
+// 2. SERVER-SIDE PROTECTION: Block standard Users from viewing this page entirely
 if ($_SESSION['role'] == 'User') {
-    // Stop execution and show Access Denied
     http_response_code(403);
     die('
         <!DOCTYPE html>
@@ -53,25 +52,32 @@ $result = $conn->query($sql);
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* (Keep your previous styles here) */
         * { box-sizing: border-box; font-family: <?php echo t('font'); ?>; }
         body { background: #f8f9fa; margin: 0; padding: 0; }
         header { background: #e5b13a; color: #333; padding: 20px; text-align: center; position: relative; }
-        .lang-switch { position: absolute; top: 20px; <?php echo $lang == 'ar' ? 'left: 20px;' : 'right: 20px;'; ?> color: #333; text-decoration: none; border: 1px solid #333; padding: 5px 10px; border-radius: 5px;}
+        .lang-switch { position: absolute; top: 20px; <?php echo $lang == 'ar' ? 'left: 20px;' : 'right: 20px;'; ?> color: #333; text-decoration: none; border: 1px solid #333; padding: 5px 10px; border-radius: 5px; font-weight: bold;}
+        .lang-switch:hover { background: #333; color: #e5b13a; }
         .container { max-width: 1200px; margin: 40px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        
+        /* Flexbox to put Title on the left and Buttons on the right */
+        .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px;}
         h2 { color: #004b87; margin: 0;}
+        
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: <?php echo $lang == 'ar' ? 'right' : 'left'; ?>; }
         th { background-color: #004b87; color: white; }
-        .btn-back { display: inline-block; margin-top: 20px; background: #004b87; color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px;}
-        .badge { background: #333; color: white; padding: 3px 8px; border-radius: 12px; font-size: 12px; }
+        .btn-back { display: inline-block; margin-top: 30px; background: #004b87; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;}
+        .badge { background: #333; color: white; padding: 3px 10px; border-radius: 12px; font-size: 13px; font-weight: bold; }
         
-        /* New Buttons CSS */
-        .btn-add { background: #28a745; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; }
-        .btn-add:hover { background: #218838; }
-        .btn-edit { background: #ffc107; color: #333; padding: 5px 10px; text-decoration: none; border-radius: 5px; font-size: 14px; margin: 0 2px;}
-        .btn-delete { background: #dc3545; color: white; padding: 5px 10px; text-decoration: none; border-radius: 5px; font-size: 14px; margin: 0 2px;}
+        /* Action Buttons CSS */
+        .btn-add { background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s;}
+        .btn-add:hover { background: #218838; transform: translateY(-2px); }
+        
+        .btn-manage { background: #333; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; margin-right: 10px; margin-left: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s;}
+        .btn-manage:hover { background: #000; transform: translateY(-2px); }
+
+        .btn-edit { background: #ffc107; color: #333; padding: 6px 12px; text-decoration: none; border-radius: 5px; font-size: 14px; margin: 0 2px;}
+        .btn-delete { background: #dc3545; color: white; padding: 6px 12px; text-decoration: none; border-radius: 5px; font-size: 14px; margin: 0 2px;}
     </style>
 </head>
 <body>
@@ -84,11 +90,22 @@ $result = $conn->query($sql);
         </p>
     </header>
 
-   <div class="container">
+    <div class="container">
         <!-- New Flex Header with Add Button -->
         <div class="header-flex">
-            <h2><?php echo t('all_schedules'); ?> (Admin / Moderator)</h2>
-            <a href="manage_users.php" class="btn-edit" style="padding: 10px 15px; margin-right: 10px; font-weight:bold; background:#333; color:white;"><i class="fa-solid fa-users-gear"></i> <?php echo t('manage_users'); ?></a>
+            <h2><?php echo t('all_schedules'); ?></h2>
+            
+            <div style="display: flex; gap: 10px;">
+                <?php 
+                // Only show "Manage Users" if the logged-in user is an Admin
+                if($_SESSION['role'] == 'Admin'): 
+                ?>
+                    <a href="manage_users.php" class="btn-manage"><i class="fa-solid fa-users-gear"></i> <?php echo t('manage_users'); ?></a>
+                <?php endif; ?>
+                
+                <!-- Both Admins and Moderators will see this Add button -->
+                <a href="add_meeting.php" class="btn-add"><i class="fa-solid fa-plus"></i> <?php echo t('add_meeting'); ?></a>
+            </div>
         </div>
 
         <?php if ($result->num_rows > 0): ?>
@@ -100,7 +117,7 @@ $result = $conn->query($sql);
                     <th><?php echo t('time'); ?></th>
                     <th><?php echo t('room'); ?></th>
                     <th><?php echo t('status'); ?></th>
-                    <th><?php echo t('action'); ?></th> <!-- NEW ACTION COLUMN -->
+                    <th><?php echo t('action'); ?></th>
                 </tr>
                 <?php while($row = $result->fetch_assoc()): ?>
                 <tr>
@@ -117,19 +134,20 @@ $result = $conn->query($sql);
                         ?>
                     </td>
                     <td>
-                        <!-- Edit & Delete Buttons -->
-                        <a href="edit_meeting.php?id=<?php echo $row['id']; ?>" class="btn-edit"><i class="fa-solid fa-pen"></i></a>
-                        <a href="delete_meeting.php?id=<?php echo $row['id']; ?>" class="btn-delete" onclick="return confirm('<?php echo t('confirm_delete'); ?>');"><i class="fa-solid fa-trash"></i></a>
+                        <a href="edit_meeting.php?id=<?php echo $row['id']; ?>" class="btn-edit" title="<?php echo t('edit'); ?>"><i class="fa-solid fa-pen"></i></a>
+                        <a href="delete_meeting.php?id=<?php echo $row['id']; ?>" class="btn-delete" title="<?php echo t('delete'); ?>" onclick="return confirm('<?php echo t('confirm_delete'); ?>');"><i class="fa-solid fa-trash"></i></a>
                     </td>
                 </tr>
                 <?php endwhile; ?>
             </table>
         <?php else: ?>
-            <p><?php echo t('no_meetings'); ?></p>
+            <p style="text-align: center; font-size: 18px; color: #666; margin: 40px 0;"><i class="fa-regular fa-calendar-xmark" style="font-size: 40px; margin-bottom: 10px; display: block; color: #ccc;"></i> <?php echo t('no_meetings'); ?></p>
         <?php endif; ?>
 
         <a href="index.php" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
     </div>
+
+    <!-- Live Clock Script -->
     <script>
         function updateClock() {
             const now = new Date();

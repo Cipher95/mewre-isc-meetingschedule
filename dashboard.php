@@ -70,7 +70,7 @@ $result = $conn->query($sql);
                         <?php echo $row['status'] == 'Upcoming' ? t('upcoming') : t('completed'); ?>
                     </td>
                     <td>
-                        <a href="#" class="btn-join"><i class="fa-solid fa-circle-info"></i> <?php echo t('join'); ?></a>
+                        <a href="view_meeting.php?id=<?php echo $row['id']; ?>" class="btn-join"><i class="fa-solid fa-circle-info"></i> <?php echo t('join'); ?></a>
                     </td>
                 </tr>
                 <?php endwhile; ?>
