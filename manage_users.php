@@ -44,12 +44,55 @@ $users_result = $conn->query("SELECT * FROM users ORDER BY role ASC, full_name A
         .btn-update { background: #004b87; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
         .btn-update:hover { background: #e5b13a; color: #333; }
         .btn-back { display: inline-block; margin-top: 20px; background: #666; color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px;}
+        .search-container { position: relative; margin-bottom: 15px; }
+        .search-container i { position: absolute; top: 12px; color: #888; <?php echo $lang == 'ar' ? 'right: 15px;' : 'left: 15px;'; ?> }
+        .search-input { width: 100%; padding: 10px <?php echo $lang == 'ar' ? '40px 10px 10px' : '10px 10px 40px'; ?>; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; }
+        .search-input:focus { outline: none; border-color: #004b87; box-shadow: 0 0 5px rgba(0,75,135,0.3); }
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            /* Smart positioning based on language direction */
+            <?php echo $lang == 'ar' ? 'left: 30px;' : 'right: 30px;'; ?>
+            background-color: #e5b13a; /* Secondary Gold */
+            color: #333;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0; /* Hidden by default */
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background-color: #004b87; /* Primary Blue */
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2><i class="fa-solid fa-users-gear"></i> <?php echo t('manage_users'); ?></h2>
         <?php if($success) echo "<p>$success</p>"; ?>
+        <!-- SEARCH BAR -->
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="<?php echo t('search'); ?>">
+        </div>
         
         <table>
             <tr>
@@ -81,5 +124,57 @@ $users_result = $conn->query("SELECT * FROM users ORDER BY role ASC, full_name A
         
         <a href="schedules.php" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
     </div>
+<!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" title="Go to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+<script>
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll('table tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                let match = false;
+                let tds = rows[i].getElementsByTagName('td');
+                
+                for (let j = 0; j < tds.length; j++) {
+                    // Check if there is a dropdown in this cell
+                    let selectElement = tds[j].querySelector('select');
+                    let cellText = "";
+                    
+                    if (selectElement) {
+                        // Get the text of the currently selected role
+                        cellText = selectElement.options[selectElement.selectedIndex].text;
+                    } else {
+                        // Just get the normal text
+                        cellText = tds[j].innerText;
+                    }
+
+                    if (cellText.toLowerCase().includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = match ? '' : 'none';
+            }
+        });
+    // Back to Top Logic
+        const backToTopBtn = document.getElementById("backToTop");
+        
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add("show");
+            } else {
+                backToTopBtn.classList.remove("show");
+            }
+        });
+        
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    </script>
 </body>
 </html>

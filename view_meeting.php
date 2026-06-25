@@ -69,6 +69,40 @@ $meeting = $result->fetch_assoc();
         .btn-print:hover { background: #000; }
         .btn-back { background: #004b87; color: white; }
         .btn-back:hover { background: #e5b13a; color: #333; }
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            /* Smart positioning based on language direction */
+            <?php echo $lang == 'ar' ? 'left: 30px;' : 'right: 30px;'; ?>
+            background-color: #e5b13a; /* Secondary Gold */
+            color: #333;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0; /* Hidden by default */
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background-color: #004b87; /* Primary Blue */
+            color: #ffffff;
+        }
 
         /* Print CSS - Hides buttons when physically printing */
         @media print {
@@ -127,6 +161,29 @@ $meeting = $result->fetch_assoc();
             <button onclick="window.print()" class="btn btn-print"><i class="fa-solid fa-print"></i> <?php echo t('print'); ?></button>
         </div>
     </div>
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" title="Go to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+    <script>
+        // Back to Top Logic
+        const backToTopBtn = document.getElementById("backToTop");
+        
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add("show");
+            } else {
+                backToTopBtn.classList.remove("show");
+            }
+        });
+        
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+        </script>
 
 </body>
 </html>
