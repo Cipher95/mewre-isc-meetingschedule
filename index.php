@@ -183,7 +183,7 @@ if (isset($_SESSION['username'])) {
     <nav>
         <div class="nav-container">
             <a href="index.php" class="logo">
-    <img src="mew_ar.svg" alt="MEW Logo" style="height: 80px; margin-right: 10px;">
+    <i class="fa-solid fa-server"></i> <?php echo t('mew_kuwait'); ?>
 			</a>
             
             <!-- Hamburger Icon -->
