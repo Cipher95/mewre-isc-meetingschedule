@@ -21,9 +21,9 @@ if (isset($_SESSION['username'])) {
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:title" content="MEW ISC | Meeting Schedules" />
     <meta property="og:description" content="Official Information Systems Center portal for the Ministry of Electricity, Water & Renewable Energy, Kuwait. Manage meeting schedules, and system reports." />
-    <meta property="og:url" content="http://mewre-isc-meetingschedules.infinityfreeapp.com/" />
+    <meta property="og:url" content="https://mewre-isc-meetingschedules.infinityfreeapp.com/" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="http://mewre-isc-meetingschedules.infinityfreeapp.com/Emblem_of_the_State_of_Kuwait.svg" />
+    <meta property="og:image" content="https://mewre-isc-meetingschedules.infinityfreeapp.com/Emblem_of_the_State_of_Kuwait.svg" />
     
     <!-- Mobile Browser Theme Color (Official MEW Blue) -->
     <meta name="theme-color" content="#004b87" />
