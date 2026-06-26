@@ -28,6 +28,40 @@ if (!isset($_SESSION['username'])) {
         .report-section h4 { margin: 0 0 10px 0; color: #333; }
         .report-section p { margin: 0; color: #666; }
         .btn-back { display: inline-block; margin-top: 20px; background: #004b87; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;}
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            /* Smart positioning based on language direction */
+            <?php echo $lang == 'ar' ? 'left: 30px;' : 'right: 30px;'; ?>
+            background-color: #e5b13a; /* Secondary Gold */
+            color: #333;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0; /* Hidden by default */
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background-color: #004b87; /* Primary Blue */
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -61,5 +95,28 @@ if (!isset($_SESSION['username'])) {
 
         <a href="index.php" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
     </div>
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" title="Go to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+    <script>
+        // Back to Top Logic
+        const backToTopBtn = document.getElementById("backToTop");
+        
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add("show");
+            } else {
+                backToTopBtn.classList.remove("show");
+            }
+        });
+        
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+        </script>
 </body>
 </html>
