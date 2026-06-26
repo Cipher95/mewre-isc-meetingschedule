@@ -157,7 +157,7 @@ $meeting = $result->fetch_assoc();
         </div>
 
         <div class="ticket-footer">
-            <a href="dashboard.php" class="btn btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
+            <a href="dashboard.php" class="btn btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back'); ?></a>
             <button onclick="window.print()" class="btn btn-print"><i class="fa-solid fa-print"></i> <?php echo t('print'); ?></button>
         </div>
     </div>

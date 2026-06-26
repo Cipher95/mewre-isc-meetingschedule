@@ -66,20 +66,14 @@ if (!isset($_SESSION['username'])) {
         <h2><i class="fa-solid fa-calendar-days"></i> <?php echo t('events'); ?></h2>
         
         <div class="event-item">
-            <div class="event-date"><span>28</span> June</div>
+            <div class="event-date"><span>01</span> January</div>
             <div class="event-details">
-                <h3><?php echo t('maintenance'); ?>: Firewall Upgrade</h3>
-                <p><i class="fa-regular fa-clock"></i> 02:00 AM - 04:00 AM (Downtime Expected)</p>
+                <h3></h3>
+                <p><i class="fa-regular fa-clock"></i> 12:00 AM</p>
             </div>
         </div>
 
-        <div class="event-item">
-            <div class="event-date"><span>02</span> July</div>
-            <div class="event-details">
-                <h3><?php echo t('deployment'); ?>: MEW Portal v2.0</h3>
-                <p><i class="fa-regular fa-clock"></i> 11:00 PM</p>
-            </div>
-        </div>
+        
 
         <a href="index.php" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
     </div>

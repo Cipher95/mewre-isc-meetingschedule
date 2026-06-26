@@ -84,13 +84,15 @@ if (!isset($_SESSION['username'])) {
         <h3><i class="fa-solid fa-folder-open" style="color: #e5b13a;"></i> <?php echo t('deliverables'); ?></h3>
         
         <div class="report-section">
-            <h4>MEW Mobile App Integration</h4>
-            <p>Phase 2 completed successfully. API endpoints for user authentication have been finalized and pushed to production.</p>
+            <h4>Official Order System MEW Website (Made by Admin)</h4>
+            <p>https://cipher95.github.io/Official-Order-System-MEW/ This website is used to create orders. Once the user has finished entering the required information, they can generate and download the order as a PDF file.
+
+Note: The current PDF template is not the official template and does not match the format currently used by the department. All orders generated through this website use the same template. Although it is suitable for general use, it should not be considered an official document until the PDF template is updated and officially approved.</p>
         </div>
 
-        <div class="report-section" style="border-left-color: #ffc107;">
-            <h4>Internal Database Migration</h4>
-            <p>Data syncing is currently at 75%. Expected to complete by end of week. No data loss reported.</p>
+<div class="report-section">
+            <h4>MEW Projects Implementation Department 2026 (Made by Admin)</h4>
+            <p>https://cipher95.github.io/MEW-Projects-Implementation-Department-2026/ This site is intended for the MEW Projects Implementation Department only. It contains the monthly SMS report; however, the report details are for reference only and should not be considered official, as the administrator has not yet received the official report information.</p>
         </div>
 
         <a href="index.php" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>

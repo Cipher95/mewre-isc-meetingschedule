@@ -122,7 +122,7 @@ $users_result = $conn->query("SELECT * FROM users ORDER BY role ASC, full_name A
             <?php endwhile; ?>
         </table>
         
-        <a href="schedules.php" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
+        <a href="schedules.php" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back'); ?></a>
     </div>
 <!-- Back to Top Button -->
     <button id="backToTop" class="back-to-top" title="Go to top">

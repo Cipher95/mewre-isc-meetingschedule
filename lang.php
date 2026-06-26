@@ -108,7 +108,8 @@ $translations = [
         'uptime' => 'Network Uptime',
         'server_status' => 'Server Status',
         'operational' => 'Operational',
-        'deliverables' => 'Project Deliverables'
+        'deliverables' => 'Project Deliverables',
+        'back' => 'Back'
     ],
     'ar' => [
         'dir' => 'rtl',
@@ -201,7 +202,8 @@ $translations = [
         'uptime' => 'استقرار الشبكة',
         'server_status' => 'حالة الخوادم',
         'operational' => 'يعمل بكفاءة',
-        'deliverables' => 'تسليمات المشاريع'
+        'deliverables' => 'تسليمات المشاريع',
+        'back' => 'العودة'
     ]
 ];
 

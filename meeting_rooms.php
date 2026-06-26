@@ -94,8 +94,7 @@ $result = $conn->query($sql);
 <body>
     <header>
         <a href="?lang=<?php echo t('lang_toggle'); ?>" class="lang-switch"><i class="fa-solid fa-globe"></i> <?php echo t('lang_btn'); ?></a>
-        <h1><i class="fa-solid fa-shield-halved"></i> <?php echo t('all_schedules'); ?></h1>
-        <p><?php echo t('user_role'); ?> <span class="badge"><?php echo $_SESSION['role']; ?></span></p>
+        <h1><?php echo t('all_schedules'); ?></h1>
         <p style="margin-top: 10px; font-size: 15px; font-weight: bold; color: #004b87;">
             <i class="fa-regular fa-clock"></i> <span class="live-clock"></span>
         </p>

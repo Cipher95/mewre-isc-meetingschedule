@@ -74,13 +74,13 @@ $result = $conn->query($sql);
             background-color: #004b87; /* Primary Blue */
             color: #ffffff;
         }
+        .btn-back { display: inline-block; margin-top: 30px; background: #004b87; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;}
     </style>
 </head>
 <body>
     <header>
         <a href="?lang=<?php echo t('lang_toggle'); ?>" class="lang-switch"><i class="fa-solid fa-globe"></i> <?php echo t('lang_btn'); ?></a>
-        <h1><?php echo t('welcome'); ?> <?php echo htmlspecialchars($full_name); ?></h1>
-        <p><?php echo t('username'); ?>: <?php echo htmlspecialchars($username); ?></p>
+        <h1><?php echo t('your_meetings'); ?></h1>
         <p style="margin-top: 10px; font-size: 14px; color: #e5b13a;">
             <i class="fa-regular fa-clock"></i> <span class="live-clock"></span>
         </p>
