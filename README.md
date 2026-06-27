@@ -1,1 +1,1 @@
-# mewre-isc-meetingschedules
+# mewre-isc-meetingschedule
