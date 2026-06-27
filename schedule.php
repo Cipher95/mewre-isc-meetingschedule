@@ -8,6 +8,33 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+// 2. SERVER-SIDE PROTECTION: Block standard Users from viewing this page entirely
+if ($_SESSION['role'] == 'User') {
+    http_response_code(403);
+    die('
+        <!DOCTYPE html>
+        <html lang="' . $lang . '" dir="' . t('dir') . '">
+        <head>
+            <meta charset="UTF-8">
+            <title>' . t('access_denied') . '</title>
+            <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+            <style>
+                body { font-family: ' . t('font') . '; background: #f8f9fa; text-align: center; padding: 100px 20px; }
+                .error-box { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; border-top: 5px solid red;}
+                h1 { color: red; }
+                a { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #004b87; color: white; text-decoration: none; border-radius: 5px; }
+            </style>
+        </head>
+        <body>
+            <div class="error-box">
+                <h1>' . t('access_denied') . '</h1>
+                <p>' . t('access_denied_desc') . '</p>
+                <a href="index.php">' . t('back_home') . '</a>
+            </div>
+        </body>
+        </html>
+    ');
+}
 
 // Fetch ALL meetings across the company with User data using a JOIN on username
 $sql = "SELECT meetings.*, users.full_name 
@@ -21,7 +48,7 @@ $result = $conn->query($sql);
 <html lang="<?php echo $lang; ?>" dir="<?php echo t('dir'); ?>">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo t('meeting_rooms'); ?> | MEW ISC</title>
+    <title><?php echo t('schedule'); ?> | MEW ISC</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -94,7 +121,8 @@ $result = $conn->query($sql);
 <body>
     <header>
         <a href="?lang=<?php echo t('lang_toggle'); ?>" class="lang-switch"><i class="fa-solid fa-globe"></i> <?php echo t('lang_btn'); ?></a>
-        <h1><?php echo t('meeting_rooms'); ?></h1>
+        <h1><i class="fa-solid fa-shield-halved"></i> <?php echo t('schedule'); ?></h1>
+        <p><?php echo t('user_role'); ?> <span class="badge"><?php echo $_SESSION['role']; ?></span></p>
         <p style="margin-top: 10px; font-size: 15px; font-weight: bold; color: #004b87;">
             <i class="fa-regular fa-clock"></i> <span class="live-clock"></span>
         </p>
@@ -103,8 +131,19 @@ $result = $conn->query($sql);
     <div class="container">
         <!-- New Flex Header with Add Button -->
         <div class="header-flex">
-            <h2><?php echo t('meeting_rooms'); ?></h2>
+            <h2><?php echo t('schedule'); ?></h2>
             
+            <div style="display: flex; gap: 10px;">
+                <?php 
+                // Only show "Manage Users" if the logged-in user is an Admin
+                if($_SESSION['role'] == 'Admin'): 
+                ?>
+                    <a href="manage_users.php" class="btn-manage"><i class="fa-solid fa-users-gear"></i> <?php echo t('manage_users'); ?></a>
+                <?php endif; ?>
+                
+                <!-- Both Admins and Moderators will see this Add button -->
+                <a href="add_meeting.php" class="btn-add"><i class="fa-solid fa-plus"></i> <?php echo t('add_meeting'); ?></a>
+            </div>
         </div>
         <!-- SEARCH BAR -->
         <div class="search-container">
@@ -121,7 +160,7 @@ $result = $conn->query($sql);
                     <th><?php echo t('time'); ?></th>
                     <th><?php echo t('room'); ?></th>
                     <th><?php echo t('status'); ?></th>
-                    
+                    <th><?php echo t('action'); ?></th>
                 </tr>
                 <?php while($row = $result->fetch_assoc()): ?>
                 <tr>
@@ -137,7 +176,10 @@ $result = $conn->query($sql);
                         else echo '<span style="color:red;font-weight:bold;">'.t('cancelled').'</span>';
                         ?>
                     </td>
-                    
+                    <td>
+                        <a href="edit_meeting.php?id=<?php echo $row['id']; ?>" class="btn-edit" title="<?php echo t('edit'); ?>"><i class="fa-solid fa-pen"></i></a>
+                        <a href="delete_meeting.php?id=<?php echo $row['id']; ?>" class="btn-delete" title="<?php echo t('delete'); ?>" onclick="return confirm('<?php echo t('confirm_delete'); ?>');"><i class="fa-solid fa-trash"></i></a>
+                    </td>
                 </tr>
                 <?php endwhile; ?>
             </table>

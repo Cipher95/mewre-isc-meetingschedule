@@ -15,6 +15,6 @@ if (isset($_GET['id'])) {
 }
 
 // Send them right back
-header("Location: schedules.php");
+header("Location: schedule.php");
 exit();
 ?>

@@ -19,11 +19,11 @@ if (isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content="MEW ISC | Meeting Schedules" />
-    <meta property="og:description" content="Official Information Systems Center portal for the Ministry of Electricity, Water & Renewable Energy, Kuwait. Manage meeting schedules, and system reports." />
-    <meta property="og:url" content="https://mewre-isc-meetingschedules.infinityfreeapp.com/" />
+    <meta property="og:title" content="MEW ISC | Meeting Schedule" />
+    <meta property="og:description" content="Official Information Systems Center portal for the Ministry of Electricity, Water & Renewable Energy, Kuwait. Manage meeting schedule, and system reports." />
+    <meta property="og:url" content="https://mewre-isc-meetingschedule.infinityfreeapp.com/" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://mewre-isc-meetingschedules.infinityfreeapp.com/Emblem_of_the_State_of_Kuwait.svg" />
+    <meta property="og:image" content="https://mewre-isc-meetingschedule.infinityfreeapp.com/Emblem_of_the_State_of_Kuwait.svg" />
     
     <!-- Mobile Browser Theme Color (Official MEW Blue) -->
     <meta name="theme-color" content="#004b87" />
@@ -207,7 +207,7 @@ if (isset($_SESSION['username'])) {
                 // Admin/Moderator only link
                 if (isset($_SESSION['role']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Moderator')): 
                 ?>
-                    <li><a href="schedules.php" style="color: #e5b13a;"><i class="fa-solid fa-lock-open"></i> <?php echo t('all_schedules'); ?></a></li>
+                    <li><a href="schedule.php" style="color: #e5b13a;"><i class="fa-solid fa-lock-open"></i> <?php echo t('schedule'); ?></a></li>
                 <?php endif; ?>
 
                 <li>
