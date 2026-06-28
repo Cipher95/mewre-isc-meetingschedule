@@ -9,11 +9,14 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'Admin') {
 
 $success = '';
 
+if (isset($_GET['reset_success'])) {
+    $success = "<span style='color:green;'>" . t('password_reset_success') . "</span>";
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
     $user_id = intval($_POST['user_id']);
     $new_role = $conn->real_escape_string($_POST['role']);
 
-    // Prevent Admin from accidentally removing their own Admin role
     if ($_SESSION['user_id'] == $user_id && $new_role !== 'Admin') {
         $success = "<span style='color:red;'>You cannot demote yourself.</span>";
     } else {
@@ -117,6 +120,10 @@ $users_result = $conn->query("SELECT * FROM users ORDER BY role ASC, full_name A
                 <td>
                         <button type="submit" class="btn-update"><i class="fa-solid fa-check"></i> <?php echo t('update_role'); ?></button>
                     </form>
+             <!-- NEW RESET PASSWORD LINK FOR ADMINS -->
+                    <a href="admin_reset_password.php?id=<?php echo $u['id']; ?>" class="btn-update" style="background-color: #dc3545; color: white; text-decoration: none; margin-top: 2px; display: inline-block;">
+                        <i class="fa-solid fa-key"></i> <?php echo t('reset_password'); ?>
+                    </a>
                 </td>
             </tr>
             <?php endwhile; ?>
