@@ -210,12 +210,6 @@ if (isset($_SESSION['username'])) {
                     <li><a href="schedule.php" style="color: #e5b13a;"><i class="fa-solid fa-lock-open"></i> <?php echo t('schedule'); ?></a></li>
                 <?php endif; ?>
 
-                <li>
-                    <a href="?lang=<?php echo t('lang_toggle'); ?>" class="lang-btn">
-                        <i class="fa-solid fa-globe"></i> <?php echo t('lang_btn'); ?>
-                    </a>
-                </li>
-                
                 <?php if (isset($_SESSION['username'])): ?>
                     <!-- Shows Dashboard Link -->
                     <li><a href="dashboard.php" style="font-weight: 600; color: var(--primary-blue);"><i class="fa-solid fa-calendar-check"></i> <?php echo t('view_schedule'); ?></a></li>
@@ -225,6 +219,12 @@ if (isset($_SESSION['username'])) {
                     <!-- Shows Login Button for Guests -->
                     <li><a href="login.php" class="btn-login"><i class="fa-solid fa-right-to-bracket"></i> <?php echo t('login'); ?></a></li>
                 <?php endif; ?>
+                <li>
+                    <a href="?lang=<?php echo t('lang_toggle'); ?>" class="lang-btn">
+                        <i class="fa-solid fa-globe"></i> <?php echo t('lang_btn'); ?>
+                    </a>
+                </li>
+                
             </ul>
         </div>
     </nav>
