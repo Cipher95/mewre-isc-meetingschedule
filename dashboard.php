@@ -10,7 +10,7 @@ if (!isset($_SESSION['username'])) {
 $username = $_SESSION['username'];
 $full_name = $_SESSION['full_name'];
 
-$sql = "SELECT * FROM meetings WHERE username = '$username' ORDER BY meeting_date ASC, meeting_time ASC";
+$sql = "SELECT * FROM meetings WHERE username = '$username' ORDER BY meeting_date DESC, meeting_time ASC";
 $result = $conn->query($sql);
 ?>
 
@@ -75,6 +75,40 @@ $result = $conn->query($sql);
             color: #ffffff;
         }
         .btn-back { display: inline-block; margin-top: 30px; background: #004b87; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;}
+        /* Go to Bottom Button */
+        .go-to-bottom {
+            position: fixed;
+            bottom: 30px; 
+            /* Smart positioning for English/Arabic */
+            <?php echo $lang == 'ar' ? 'left: 30px;' : 'right: 30px;'; ?>
+            background-color: #004b87; /* Primary Blue */
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .go-to-bottom.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .go-to-bottom:hover {
+            transform: translateY(5px); /* Animates downwards */
+            background-color: #e5b13a; /* Secondary Gold */
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -127,6 +161,10 @@ $result = $conn->query($sql);
     <button id="backToTop" class="back-to-top" title="Go to top">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
+    <!-- Go to Bottom Button -->
+    <button id="goToBottom" class="go-to-bottom" title="<?php echo $lang == 'ar' ? 'النزول للأسفل' : 'Go to bottom'; ?>">
+        <i class="fa-solid fa-arrow-down"></i>
+    </button>
     <script>
         function updateClock() {
             const now = new Date();
@@ -178,6 +216,38 @@ $result = $conn->query($sql);
                 }
                 rows[i].style.display = match ? '' : 'none';
             }
+        });
+    </script>
+    <script>
+        // Go to Bottom Logic
+        const goToBottomBtn = document.getElementById("goToBottom");
+        
+        function checkScrollPosition() {
+            // 1. If the page is too short to scroll, hide it
+            if (document.body.scrollHeight <= window.innerHeight) {
+                goToBottomBtn.classList.add("hide");
+            } 
+            // 2. If the user has scrolled to the absolute bottom, hide it
+            else if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 50) {
+                goToBottomBtn.classList.add("hide");
+            } 
+            // 3. Otherwise, show it
+            else {
+                goToBottomBtn.classList.remove("hide");
+            }
+        }
+
+        // Run checks on scroll, on page load, and if screen size changes
+        window.addEventListener("scroll", checkScrollPosition);
+        window.addEventListener("resize", checkScrollPosition);
+        document.addEventListener("DOMContentLoaded", checkScrollPosition);
+        
+        // Smooth scroll to bottom when clicked
+        goToBottomBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth"
+            });
         });
     </script>
 </body>
