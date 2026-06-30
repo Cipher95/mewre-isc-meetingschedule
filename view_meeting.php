@@ -41,6 +41,9 @@ $meeting = $result->fetch_assoc();
     <title><?php echo t('meeting_details'); ?> | MEW ISC</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- HTML2PDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * { box-sizing: border-box; font-family: <?php echo t('font'); ?>; }
         body { background: #f8f9fa; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
@@ -67,6 +70,8 @@ $meeting = $result->fetch_assoc();
         .btn { padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px;}
         .btn-print { background: #333; color: white; }
         .btn-print:hover { background: #000; }
+        .btn-pdf { background: #dc3545; color: white; }
+        .btn-pdf:hover { background: #c82333; }
         .btn-back { background: #004b87; color: white; }
         .btn-back:hover { background: #e5b13a; color: #333; }
         /* Back to Top Button */
@@ -156,9 +161,11 @@ $meeting = $result->fetch_assoc();
             </div>
         </div>
 
-        <div class="ticket-footer">
+        <!-- We added data-html2canvas-ignore so the PDF library automatically hides this area! -->
+        <div class="ticket-footer" data-html2canvas-ignore="true">
             <a href="dashboard.php" class="btn btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back'); ?></a>
-            <button onclick="window.print()" class="btn btn-print"><i class="fa-solid fa-print"></i> <?php echo t('print'); ?></button>
+             <!-- NEW: Save as PDF Button -->
+            <button onclick="saveAsPDF()" class="btn btn-pdf"><i class="fa-solid fa-file-pdf"></i> <?php echo t('save_pdf'); ?></button>
         </div>
     </div>
     <!-- Back to Top Button -->
@@ -184,6 +191,30 @@ $meeting = $result->fetch_assoc();
             });
         });
         </script>
+     <script>
+        function saveAsPDF() {
+            // Grab the main card using its class name (Guaranteed to exist)
+            const element = document.querySelector('.ticket-card');
+            
+            // Failsafe check
+            if (!element) {
+                console.error("Card element not found!");
+                return;
+            }
+            
+            // Configure PDF Options
+            const opt = {
+                margin:       0.5,
+                filename:     'MEW_Meeting_Pass.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, backgroundColor: '#ffffff', useCORS: true }, 
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            
+            // Generate and download the PDF
+            html2pdf().from(element).set(opt).save();
+        }
+    </script>
 
 </body>
 </html>
