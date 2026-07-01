@@ -62,6 +62,45 @@ if (!isset($_SESSION['username'])) {
             background-color: #004b87; /* Primary Blue */
             color: #ffffff;
         }
+          /* Search Bar CSS */
+        .search-container { position: relative; margin-bottom: 25px; }
+        .search-container i { position: absolute; top: 12px; color: #888; <?php echo $lang == 'ar' ? 'right: 15px;' : 'left: 15px;'; ?> }
+        .search-input { width: 100%; padding: 10px <?php echo $lang == 'ar' ? '40px 10px 10px' : '10px 10px 40px'; ?>; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; }
+        .search-input:focus { outline: none; border-color: #004b87; box-shadow: 0 0 5px rgba(0,75,135,0.3); }
+		 /* Go to Bottom Button */
+        .go-to-bottom {
+            position: fixed;
+            bottom: 30px; 
+            /* Smart positioning for English/Arabic */
+            <?php echo $lang == 'ar' ? 'left: 30px;' : 'right: 30px;'; ?>
+            background-color: #004b87; /* Primary Blue */
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .go-to-bottom.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .go-to-bottom:hover {
+            transform: translateY(5px); /* Animates downwards */
+            background-color: #e5b13a; /* Secondary Gold */
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -82,12 +121,14 @@ if (!isset($_SESSION['username'])) {
 
         <!-- Deliverables Log -->
         <h3><i class="fa-solid fa-folder-open" style="color: #e5b13a;"></i> <?php echo t('deliverables'); ?></h3>
-        
+         <!-- SEARCH BAR -->
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="<?php echo t('search'); ?>">
+        </div>
         <div class="report-section">
             <h4>Official Order System MEW Website (Made by Admin)</h4>
-            <p>https://cipher95.github.io/Official-Order-System-MEW/ This website is used to create orders. Once the user has finished entering the required information, they can generate and download the order as a PDF file.
-
-Note: The current PDF template is not the official template and does not match the format currently used by the department. All orders generated through this website use the same template. Although it is suitable for general use, it should not be considered an official document until the PDF template is updated and officially approved.</p>
+            <p>https://cipher95.github.io/Official-Order-System-MEW/ This website is used to create orders. Once the user has finished entering the required information, they can generate and download the order as a PDF file. Note: The current PDF template is not the official template and does not match the format currently used by the department. All orders generated through this website use the same template. Although it is suitable for general use, it should not be considered an official document until the PDF template is updated and officially approved.</p>
         </div>
 
 <div class="report-section">
@@ -100,6 +141,10 @@ Note: The current PDF template is not the official template and does not match t
     <!-- Back to Top Button -->
     <button id="backToTop" class="back-to-top" title="Go to top">
         <i class="fa-solid fa-arrow-up"></i>
+    </button>
+     <!-- Go to Bottom Button -->
+    <button id="goToBottom" class="go-to-bottom" title="<?php echo $lang == 'ar' ? 'النزول للأسفل' : 'Go to bottom'; ?>">
+        <i class="fa-solid fa-arrow-down"></i>
     </button>
     <script>
         // Back to Top Logic
@@ -120,5 +165,56 @@ Note: The current PDF template is not the official template and does not match t
             });
         });
         </script>
+     <script>
+        // Go to Bottom Logic
+        const goToBottomBtn = document.getElementById("goToBottom");
+        
+        function checkScrollPosition() {
+            // 1. If the page is too short to scroll, hide it
+            if (document.body.scrollHeight <= window.innerHeight) {
+                goToBottomBtn.classList.add("hide");
+            } 
+            // 2. If the user has scrolled to the absolute bottom, hide it
+            else if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 50) {
+                goToBottomBtn.classList.add("hide");
+            } 
+            // 3. Otherwise, show it
+            else {
+                goToBottomBtn.classList.remove("hide");
+            }
+        }
+
+        // Run checks on scroll, on page load, and if screen size changes
+        window.addEventListener("scroll", checkScrollPosition);
+        window.addEventListener("resize", checkScrollPosition);
+        document.addEventListener("DOMContentLoaded", checkScrollPosition);
+        
+        // Smooth scroll to bottom when clicked
+        goToBottomBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth"
+            });
+        });
+    </script>
+     <!-- Filter Script -->
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let events = document.querySelectorAll('.event-item');
+
+            events.forEach(function(event) {
+                // Get all the text inside this specific event (Title, Date, Time, etc.)
+                let text = event.innerText.toLowerCase();
+                
+                // If the text includes the search word, show it (as flex), otherwise hide it
+                if (text.includes(filter)) {
+                    event.style.display = 'flex';
+                } else {
+                    event.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
