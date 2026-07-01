@@ -201,17 +201,17 @@ if (!isset($_SESSION['username'])) {
     <script>
         document.getElementById('searchInput').addEventListener('keyup', function() {
             let filter = this.value.toLowerCase();
-            let events = document.querySelectorAll('.event-item');
+            let reports = document.querySelectorAll('.report-section');
 
-            events.forEach(function(event) {
-                // Get all the text inside this specific event (Title, Date, Time, etc.)
-                let text = event.innerText.toLowerCase();
+            reports.forEach(function(report) {
+                // Grab the text from the specific report block (Title + Description)
+                let text = report.innerText.toLowerCase();
                 
-                // If the text includes the search word, show it (as flex), otherwise hide it
+                // If it matches the search, display it. Otherwise, hide it.
                 if (text.includes(filter)) {
-                    event.style.display = 'flex';
+                    report.style.display = 'block';
                 } else {
-                    event.style.display = 'none';
+                    report.style.display = 'none';
                 }
             });
         });
