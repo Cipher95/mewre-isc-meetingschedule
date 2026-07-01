@@ -110,7 +110,7 @@ $display_name = isset($_POST['full_name']) && $error ? htmlspecialchars($_POST['
             <input type="password" name="confirm_password" placeholder="********">
 
             <button type="submit" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> <?php echo t('update_profile'); ?></button>
-            <a href="dashboard.php" class="btn-cancel"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
+            <a href="index.php" class="btn-cancel"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
         </form>
     </div>
 </body>

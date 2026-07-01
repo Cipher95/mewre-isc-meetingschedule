@@ -150,6 +150,7 @@ if (isset($_SESSION['username'])) {
             background-color: #004b87; /* Primary Blue */
             color: #ffffff;
         }
+        .logo-img { height: 65px; width: auto; object-fit: contain; }
         /* Toast Notification Styles */
         .notification-toast {
             position: fixed;
@@ -192,8 +193,8 @@ if (isset($_SESSION['username'])) {
     <nav>
         <div class="nav-container">
             <a href="index.php" class="logo">
-    <i class="fa-solid fa-server"></i> <?php echo t('mew_kuwait'); ?>
-			</a>
+                <img src="mew_ar.svg" alt="MEW Logo" class="logo-img">
+            </a>
             
             <!-- Hamburger Icon -->
             <button class="hamburger" id="hamburger-btn">
@@ -206,8 +207,6 @@ if (isset($_SESSION['username'])) {
                 
 
                 <?php if (isset($_SESSION['username'])): ?>
-                    <!-- Shows Dashboard Link -->
-                    <li><a href="dashboard.php" style="font-weight: 600; color: var(--primary-blue);"><i class="fa-solid fa-calendar-check"></i> <?php echo t('view_schedule'); ?></a></li>
                     <!-- Shows Red Logout Button -->
                     <li><a href="logout.php" class="btn-login" style="background-color: #dc3545;"><i class="fa-solid fa-right-from-bracket"></i> <?php echo t('logout'); ?></a></li>
                 <?php else: ?>

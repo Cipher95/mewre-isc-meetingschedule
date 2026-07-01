@@ -9,7 +9,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 if (!isset($_GET['id'])) {
-    header("Location: dashboard.php");
+    header("Location: meeting_rooms.php");
     exit();
 }
 
@@ -19,11 +19,12 @@ $role = $_SESSION['role'];
 
 // Fetch the meeting. 
 // SECURITY: If the user is NOT an Admin/Moderator, ensure they can ONLY see their own meetings
-if ($role == 'User') {
+/*if ($role == 'User') {
     $sql = "SELECT * FROM meetings WHERE id = $id AND username = '$username'";
 } else {
     $sql = "SELECT * FROM meetings WHERE id = $id"; // Admins/Mods can view any details
-}
+}*/
+$sql = "SELECT * FROM meetings";
 
 $result = $conn->query($sql);
 
@@ -163,7 +164,7 @@ $meeting = $result->fetch_assoc();
 
         <!-- We added data-html2canvas-ignore so the PDF library automatically hides this area! -->
         <div class="ticket-footer" data-html2canvas-ignore="true">
-            <a href="dashboard.php" class="btn btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back'); ?></a>
+            <a href="meeting_rooms.php" class="btn btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back'); ?></a>
              <!-- NEW: Save as PDF Button -->
             <button onclick="saveAsPDF()" class="btn btn-pdf"><i class="fa-solid fa-file-pdf"></i> <?php echo t('save_pdf'); ?></button>
         </div>

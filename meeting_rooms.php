@@ -2,18 +2,15 @@
 require 'lang.php';
 require 'db.php';
 
-// 1. Check if logged in
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
 
+$username = $_SESSION['username'];
+$full_name = $_SESSION['full_name'];
 
-// Fetch ALL meetings across the company with User data using a JOIN on username
-$sql = "SELECT meetings.*, users.full_name 
-        FROM meetings 
-        JOIN users ON meetings.username = users.username 
-        ORDER BY meeting_date DESC, meeting_time ASC";
+$sql = "SELECT * FROM meetings ORDER BY meeting_date DESC, meeting_time ASC";
 $result = $conn->query($sql);
 ?>
 
@@ -21,36 +18,24 @@ $result = $conn->query($sql);
 <html lang="<?php echo $lang; ?>" dir="<?php echo t('dir'); ?>">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo t('meeting_rooms'); ?> | MEW ISC</title>
+    <title>Dashboard | MEW ISC</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; font-family: <?php echo t('font'); ?>; }
         body { background: #f8f9fa; margin: 0; padding: 0; }
-        header { background: #e5b13a; color: #333; padding: 20px; text-align: center; position: relative; }
-        .lang-switch { position: absolute; top: 20px; <?php echo $lang == 'ar' ? 'left: 20px;' : 'right: 20px;'; ?> color: #333; text-decoration: none; border: 1px solid #333; padding: 5px 10px; border-radius: 5px; font-weight: bold;}
-        .lang-switch:hover { background: #333; color: #e5b13a; }
-        .container { max-width: 1200px; margin: 40px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        
-        /* Flexbox to put Title on the left and Buttons on the right */
-        .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px;}
-        h2 { color: #004b87; margin: 0;}
-        
+        header { background: #004b87; color: white; padding: 20px; text-align: center; position: relative; }
+        .lang-switch { position: absolute; top: 20px; <?php echo $lang == 'ar' ? 'left: 20px;' : 'right: 20px;'; ?> color: white; text-decoration: none; border: 1px solid white; padding: 5px 10px; border-radius: 5px;}
+        .container { max-width: 1000px; margin: 40px auto; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { color: #333; margin-bottom: 20px;}
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: <?php echo $lang == 'ar' ? 'right' : 'left'; ?>; }
+        th, td { padding: 15px; border-bottom: 1px solid #ddd; text-align: <?php echo $lang == 'ar' ? 'right' : 'left'; ?>; }
         th { background-color: #004b87; color: white; }
-        .btn-back { display: inline-block; margin-top: 30px; background: #004b87; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;}
-        .badge { background: #333; color: white; padding: 3px 10px; border-radius: 12px; font-size: 13px; font-weight: bold; }
-        
-        /* Action Buttons CSS */
-        .btn-add { background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s;}
-        .btn-add:hover { background: #218838; transform: translateY(-2px); }
-        
-        .btn-manage { background: #333; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; margin-right: 10px; margin-left: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s;}
-        .btn-manage:hover { background: #000; transform: translateY(-2px); }
-
-        .btn-edit { background: #ffc107; color: #333; padding: 6px 12px; text-decoration: none; border-radius: 5px; font-size: 14px; margin: 0 2px;}
-        .btn-delete { background: #dc3545; color: white; padding: 6px 12px; text-decoration: none; border-radius: 5px; font-size: 14px; margin: 0 2px;}
+        .btn-join { background: #004b87; color: white; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-size: 14px;}
+        .btn-join:hover { background: #e5b13a; color: #333; }
+        .btn-logout { display: inline-block; margin-top: 30px; color: red; text-decoration: none; font-weight: bold; border: 1px solid red; padding: 8px 15px; border-radius: 5px;}
+        .status-upcoming { color: #e5b13a; font-weight: bold; }
+        .status-completed { color: #28a745; font-weight: bold; }
         .search-container { position: relative; margin-bottom: 15px; }
         .search-container i { position: absolute; top: 12px; color: #888; <?php echo $lang == 'ar' ? 'right: 15px;' : 'left: 15px;'; ?> }
         .search-input { width: 100%; padding: 10px <?php echo $lang == 'ar' ? '40px 10px 10px' : '10px 10px 40px'; ?>; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; }
@@ -89,6 +74,7 @@ $result = $conn->query($sql);
             background-color: #004b87; /* Primary Blue */
             color: #ffffff;
         }
+        .btn-back { display: inline-block; margin-top: 30px; background: #004b87; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;}
         /* Go to Bottom Button */
         .go-to-bottom {
             position: fixed;
@@ -129,59 +115,49 @@ $result = $conn->query($sql);
     <header>
         <a href="?lang=<?php echo t('lang_toggle'); ?>" class="lang-switch"><i class="fa-solid fa-globe"></i> <?php echo t('lang_btn'); ?></a>
         <h1><?php echo t('meeting_rooms'); ?></h1>
-        <p style="margin-top: 10px; font-size: 15px; font-weight: bold; color: #004b87;">
+        <p style="margin-top: 10px; font-size: 14px; color: #e5b13a;">
             <i class="fa-regular fa-clock"></i> <span class="live-clock"></span>
         </p>
     </header>
 
     <div class="container">
-        <!-- New Flex Header with Add Button -->
-        <div class="header-flex">
-            <h2><?php echo t('meeting_rooms'); ?></h2>
-            
-        </div>
-        <!-- SEARCH BAR -->
+        <h2><i class="fa-solid fa-users-viewfinder" style="color: #e5b13a; margin: 0 10px;"></i> <?php echo t('meeting_rooms'); ?></h2>
+         <!-- SEARCH BAR -->
         <div class="search-container">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" id="searchInput" class="search-input" placeholder="<?php echo t('search'); ?>">
         </div>
-
         <?php if ($result->num_rows > 0): ?>
             <table>
                 <tr>
-                    <th><?php echo t('employee_name'); ?></th>
                     <th><?php echo t('meeting_title'); ?></th>
                     <th><?php echo t('date'); ?></th>
                     <th><?php echo t('time'); ?></th>
                     <th><?php echo t('room'); ?></th>
                     <th><?php echo t('status'); ?></th>
-                    
+                    <th><?php echo t('action'); ?></th>
                 </tr>
                 <?php while($row = $result->fetch_assoc()): ?>
                 <tr>
-                    <td><i class="fa-solid fa-user" style="color: #666; margin: 0 5px;"></i> <?php echo htmlspecialchars($row['full_name']); ?></td>
                     <td><strong><?php echo htmlspecialchars($row['title']); ?></strong></td>
-                    <td><?php echo $row['meeting_date']; ?></td>
-                    <td><?php echo date("h:i A", strtotime($row['meeting_time'])); ?></td>
+                    <td><i class="fa-regular fa-calendar"></i> <?php echo $row['meeting_date']; ?></td>
+                    <td><i class="fa-regular fa-clock"></i> <?php echo date("h:i A", strtotime($row['meeting_time'])); ?></td>
                     <td><?php echo htmlspecialchars($row['room']); ?></td>
-                    <td>
-                        <?php 
-                        if($row['status'] == 'Upcoming') echo '<span style="color:#e5b13a;font-weight:bold;">'.t('upcoming').'</span>';
-                        elseif($row['status'] == 'Completed') echo '<span style="color:#28a745;font-weight:bold;">'.t('completed').'</span>';
-                        else echo '<span style="color:red;font-weight:bold;">'.t('cancelled').'</span>';
-                        ?>
+                    <td class="<?php echo $row['status'] == 'Upcoming' ? 'status-upcoming' : 'status-completed'; ?>">
+                        <?php echo $row['status'] == 'Upcoming' ? t('upcoming') : t('completed'); ?>
                     </td>
-                    
+                    <td>
+                        <a href="view_meeting.php?id=<?php echo $row['id']; ?>" class="btn-join"><i class="fa-solid fa-circle-info"></i> <?php echo t('join'); ?></a>
+                    </td>
                 </tr>
                 <?php endwhile; ?>
             </table>
         <?php else: ?>
-            <p style="text-align: center; font-size: 18px; color: #666; margin: 40px 0;"><i class="fa-regular fa-calendar-xmark" style="font-size: 40px; margin-bottom: 10px; display: block; color: #ccc;"></i> <?php echo t('no_meetings'); ?></p>
+            <p><?php echo t('no_meetings'); ?></p>
         <?php endif; ?>
-
         <a href="index.php" class="btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
     </div>
-<!-- Back to Top Button -->
+    <!-- Back to Top Button -->
     <button id="backToTop" class="back-to-top" title="Go to top">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
@@ -189,7 +165,6 @@ $result = $conn->query($sql);
     <button id="goToBottom" class="go-to-bottom" title="<?php echo $lang == 'ar' ? 'النزول للأسفل' : 'Go to bottom'; ?>">
         <i class="fa-solid fa-arrow-down"></i>
     </button>
-    <!-- Live Clock Script -->
     <script>
         function updateClock() {
             const now = new Date();
@@ -206,24 +181,6 @@ $result = $conn->query($sql);
         }
         setInterval(updateClock, 1000);
         document.addEventListener('DOMContentLoaded', updateClock);
-        // Table Search/Filter Logic
-        document.getElementById('searchInput').addEventListener('keyup', function() {
-            let filter = this.value.toLowerCase();
-            let rows = document.querySelectorAll('table tr');
-
-            for (let i = 1; i < rows.length; i++) {
-                let match = false;
-                let tds = rows[i].getElementsByTagName('td');
-                
-                for (let j = 0; j < tds.length; j++) {
-                    if (tds[j].innerText.toLowerCase().includes(filter)) {
-                        match = true;
-                        break;
-                    }
-                }
-                rows[i].style.display = match ? '' : 'none';
-            }
-        });
         // Back to Top Logic
         const backToTopBtn = document.getElementById("backToTop");
         
@@ -242,7 +199,26 @@ $result = $conn->query($sql);
             });
         });
     </script>
-     <script>
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll('table tr');
+
+            for (let i = 1; i < rows.length; i++) { // Skip table header (i=0)
+                let match = false;
+                let tds = rows[i].getElementsByTagName('td');
+                
+                for (let j = 0; j < tds.length; j++) {
+                    if (tds[j].innerText.toLowerCase().includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = match ? '' : 'none';
+            }
+        });
+    </script>
+    <script>
         // Go to Bottom Logic
         const goToBottomBtn = document.getElementById("goToBottom");
         
