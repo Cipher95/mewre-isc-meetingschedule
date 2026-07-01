@@ -203,12 +203,7 @@ if (isset($_SESSION['username'])) {
             <ul class="nav-links" id="nav-menu">
                 <li><a href="profile.php"><?php echo t('my_profile'); ?></a></li>
                 
-                <?php 
-                // Admin/Moderator only link
-                if (isset($_SESSION['role']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Moderator')): 
-                ?>
-                    <li><a href="schedule.php" style="color: #e5b13a;"><i class="fa-solid fa-lock-open"></i> <?php echo t('schedule'); ?></a></li>
-                <?php endif; ?>
+                
 
                 <?php if (isset($_SESSION['username'])): ?>
                     <!-- Shows Dashboard Link -->
@@ -251,6 +246,22 @@ if (isset($_SESSION['username'])) {
     <section id="services" class="services">
         <h2><?php echo t('quick_services'); ?></h2>
         <div class="grid">
+            <?php 
+                // Admin/Moderator only link
+                if (isset($_SESSION['role']) && ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Moderator')): 
+                ?>
+            <a href="schedule.php" style="text-decoration: none; color: inherit;">
+                <div class="card">
+                    <i class="fa-solid fa-people-roof"></i>
+                    <h3><?php echo t('schedule'); ?></h3>
+                    <p><?php echo t('schedule_desc'); ?></p>
+                </div>
+            </a>
+            <?php endif; ?>
+            <?php 
+                // User only link
+                if (isset($_SESSION['role']) && ($_SESSION['role'] == 'User')): 
+                ?>
             <a href="meeting_rooms.php" style="text-decoration: none; color: inherit;">
                 <div class="card">
                     <i class="fa-solid fa-people-roof"></i>
@@ -258,7 +269,7 @@ if (isset($_SESSION['username'])) {
                     <p><?php echo t('meeting_rooms_desc'); ?></p>
                 </div>
             </a>
-            
+            <?php endif; ?>
             <a href="calendar.php" style="text-decoration: none; color: inherit;">
                 <div class="card">
                     <i class="fa-solid fa-calendar-days"></i>
