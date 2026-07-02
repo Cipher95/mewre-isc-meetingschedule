@@ -9,8 +9,13 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'Admin') {
 
 $success = '';
 
+// Check for status parameters returned from delete_user.php or admin_reset_password.php
 if (isset($_GET['reset_success'])) {
     $success = "<span style='color:green;'>" . t('password_reset_success') . "</span>";
+} elseif (isset($_GET['delete_success'])) {
+    $success = "<span style='color:green;'>" . t('user_deleted_success') . "</span>";
+} elseif (isset($_GET['delete_error']) && $_GET['delete_error'] == 'self') {
+    $success = "<span style='color:red;'>" . t('delete_self_error') . "</span>";
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
@@ -157,6 +162,10 @@ $users_result = $conn->query("SELECT * FROM users ORDER BY role ASC, full_name A
              <!-- NEW RESET PASSWORD LINK FOR ADMINS -->
                     <a href="admin_reset_password.php?id=<?php echo $u['id']; ?>" class="btn-update" style="background-color: #dc3545; color: white; text-decoration: none; margin-top: 2px; display: inline-block;">
                         <i class="fa-solid fa-key"></i> <?php echo t('reset_password'); ?>
+                    </a>
+             <!-- NEW: DELETE USER BUTTON -->
+                    <a href="delete_user.php?id=<?php echo $u['id']; ?>" class="btn-update" style="background-color: #dc3545; color: white; text-decoration: none; margin-top: 2px; display: inline-block;" onclick="return confirm('<?php echo t("confirm_delete_user"); ?>');">
+                        <i class="fa-solid fa-user-minus"></i> <?php echo t('delete_user'); ?>
                     </a>
                 </td>
             </tr>

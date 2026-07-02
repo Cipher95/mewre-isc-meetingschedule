@@ -118,6 +118,10 @@ $translations = [
         'server_status' => 'Server Status',
         'operational' => 'Operational',
         'deliverables' => 'Project Deliverables',
+        'delete_user' => 'Delete User',
+        'confirm_delete_user' => 'Are you sure you want to delete this user? All of their meeting schedules will also be removed.',
+        'delete_self_error' => 'Error: You cannot delete your own account.',
+        'user_deleted_success' => 'User and their scheduled meetings have been successfully deleted.',
         'back' => 'Back'
     ],
     'ar' => [
@@ -221,6 +225,10 @@ $translations = [
         'server_status' => 'حالة الخوادم',
         'operational' => 'يعمل بكفاءة',
         'deliverables' => 'تسليمات المشاريع',
+        'delete_user' => 'حذف المستخدم',
+        'confirm_delete_user' => 'هل أنت متأكد من حذف هذا المستخدم؟ سيتم إزالة جميع جداول اجتماعاته أيضاً.',
+        'delete_self_error' => 'خطأ: لا يمكنك حذف حسابك الخاص.',
+        'user_deleted_success' => 'تم حذف المستخدم واجتماعاته المجدولة بنجاح.',
         'back' => 'العودة'
     ]
 ];
