@@ -9,7 +9,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 if (!isset($_GET['id'])) {
-    header("Location: dashboard.php");
+    header("Location: meeting_rooms.php");
     exit();
 }
 
@@ -136,7 +136,7 @@ $m_status = !empty($meeting['status']) ? $meeting['status'] : 'pending';
 
         <!-- HTML2Canvas Ignore Tag included -->
         <div class="ticket-footer" data-html2canvas-ignore="true">
-            <a href="dashboard.php" class="btn btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
+            <a href="meeting_rooms.php" class="btn btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
             
             <button onclick="saveAsPDF()" class="btn btn-pdf"><i class="fa-solid fa-file-pdf"></i> <?php echo t('save_pdf'); ?></button>
             
