@@ -75,9 +75,10 @@ $users_result = $conn->query("SELECT username, full_name FROM users");
 
             <label><?php echo t('status'); ?></label>
             <select name="status">
-                <option value="Upcoming"><?php echo t('upcoming'); ?></option>
+                <option value="Not Started"><?php echo t('not_started'); ?></option>
+                <option value="In Progress"><?php echo t('in_progress'); ?></option>
+                <option value="Pending"><?php echo t('pending'); ?></option>
                 <option value="Completed"><?php echo t('completed'); ?></option>
-                <option value="Cancelled"><?php echo t('cancelled'); ?></option>
             </select>
 
             <button type="submit" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> <?php echo t('save'); ?></button>

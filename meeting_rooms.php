@@ -18,7 +18,7 @@ $result = $conn->query($sql);
 <html lang="<?php echo $lang; ?>" dir="<?php echo t('dir'); ?>">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard | MEW ISC</title>
+    <title>Meeting Rooms | MEW ISC</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -143,8 +143,24 @@ $result = $conn->query($sql);
                     <td><i class="fa-regular fa-calendar"></i> <?php echo $row['meeting_date']; ?></td>
                     <td><i class="fa-regular fa-clock"></i> <?php echo date("h:i A", strtotime($row['meeting_time'])); ?></td>
                     <td><?php echo htmlspecialchars($row['room']); ?></td>
-                    <td class="<?php echo $row['status'] == 'Upcoming' ? 'status-upcoming' : 'status-completed'; ?>">
-                        <?php echo $row['status'] == 'Upcoming' ? t('upcoming') : t('completed'); ?>
+                    <td>
+                         <?php 
+                        if ($row['status'] == 'not_started') {
+                            echo '<span style="color:#6c757d; font-weight:bold;"><i class="fa-solid fa-circle-pause"></i> ' . t('not_started') . '</span>';
+                        } 
+                        elseif ($row['status'] == 'pending') {
+                            echo '<span style="color:#e5b13a; font-weight:bold;"><i class="fa-solid fa-hourglass-half"></i> ' . t('pending') . '</span>';
+                        } 
+                        elseif ($row['status'] == 'in_progress') {
+                            echo '<span style="color:#004b87; font-weight:bold;"><i class="fa-solid fa-spinner"></i> ' . t('in_progress') . '</span>';
+                        } 
+                        elseif ($row['status'] == 'completed' || $row['status'] == 'Completed') {
+                            echo '<span style="color:#28a745; font-weight:bold;"><i class="fa-solid fa-check-double"></i> ' . t('completed') . '</span>';
+                        } 
+                        else {
+                            echo '<span style="color:red; font-weight:bold;">' . htmlspecialchars($row['status']) . '</span>';
+                        }
+                        ?>
                     </td>
                     <td>
                         <a href="view_meeting.php?id=<?php echo $row['id']; ?>" class="btn-join"><i class="fa-solid fa-circle-info"></i> <?php echo t('join'); ?></a>

@@ -205,9 +205,22 @@ $result = $conn->query($sql);
                     <td><?php echo htmlspecialchars($row['room']); ?></td>
                     <td>
                         <?php 
-                        if($row['status'] == 'Upcoming') echo '<span style="color:#e5b13a;font-weight:bold;">'.t('upcoming').'</span>';
-                        elseif($row['status'] == 'Completed') echo '<span style="color:#28a745;font-weight:bold;">'.t('completed').'</span>';
-                        else echo '<span style="color:red;font-weight:bold;">'.t('cancelled').'</span>';
+                        if ($row['status'] == 'not_started') {
+                            echo '<span style="color:#6c757d; font-weight:bold;"><i class="fa-solid fa-circle-pause"></i> ' . t('not_started') . '</span>';
+                        } 
+                        elseif ($row['status'] == 'pending') {
+                            echo '<span style="color:#e5b13a; font-weight:bold;"><i class="fa-solid fa-hourglass-half"></i> ' . t('pending') . '</span>';
+                        } 
+                        elseif ($row['status'] == 'in_progress') {
+                            echo '<span style="color:#004b87; font-weight:bold;"><i class="fa-solid fa-spinner"></i> ' . t('in_progress') . '</span>';
+                        } 
+                        elseif ($row['status'] == 'completed' || $row['status'] == 'Completed') {
+                            echo '<span style="color:#28a745; font-weight:bold;"><i class="fa-solid fa-check-double"></i> ' . t('completed') . '</span>';
+                        } 
+                        else {
+                            // Fallback for cancelled or old statuses
+                            echo '<span style="color:red; font-weight:bold;">' . htmlspecialchars($row['status']) . '</span>';
+                        }
                         ?>
                     </td>
                     <td>

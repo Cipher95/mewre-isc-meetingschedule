@@ -88,9 +88,10 @@ $users_result = $conn->query("SELECT username, full_name FROM users");
 
             <label><?php echo t('status'); ?></label>
             <select name="status">
-                <option value="Upcoming" <?php if($meeting['status'] == 'Upcoming') echo 'selected'; ?>><?php echo t('upcoming'); ?></option>
+                <option value="Not Started" <?php if($meeting['status'] == 'Not Started') echo 'selected'; ?>><?php echo t('not_started'); ?></option>
+                <option value="In Progress" <?php if($meeting['status'] == 'In Progress') echo 'selected'; ?>><?php echo t('in_progress'); ?></option>
+                <option value="Pending" <?php if($meeting['status'] == 'Pending') echo 'selected'; ?>><?php echo t('pending'); ?></option>
                 <option value="Completed" <?php if($meeting['status'] == 'Completed') echo 'selected'; ?>><?php echo t('completed'); ?></option>
-                <option value="Cancelled" <?php if($meeting['status'] == 'Cancelled') echo 'selected'; ?>><?php echo t('cancelled'); ?></option>
             </select>
 
             <button type="submit" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> <?php echo t('save'); ?></button>

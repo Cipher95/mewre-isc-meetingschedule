@@ -9,7 +9,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 if (!isset($_GET['id'])) {
-    header("Location: meeting_rooms.php");
+    header("Location: dashboard.php");
     exit();
 }
 
@@ -17,14 +17,12 @@ $id = intval($_GET['id']);
 $username = $_SESSION['username'];
 $role = $_SESSION['role'];
 
-// Fetch the meeting. 
-// SECURITY: If the user is NOT an Admin/Moderator, ensure they can ONLY see their own meetings
-/*if ($role == 'User') {
+// Fetch the meeting
+if ($role == 'User') {
     $sql = "SELECT * FROM meetings WHERE id = $id AND username = '$username'";
 } else {
-    $sql = "SELECT * FROM meetings WHERE id = $id"; // Admins/Mods can view any details
-}*/
-$sql = "SELECT * FROM meetings";
+    $sql = "SELECT * FROM meetings WHERE id = $id";
+}
 
 $result = $conn->query($sql);
 
@@ -33,6 +31,9 @@ if ($result->num_rows == 0) {
 }
 
 $meeting = $result->fetch_assoc();
+
+// SMART FAILSAFE: If the database ENUM update caused old statuses to become blank, force them to 'pending'
+$m_status = !empty($meeting['status']) ? $meeting['status'] : 'pending';
 ?>
 
 <!DOCTYPE html>
@@ -45,11 +46,11 @@ $meeting = $result->fetch_assoc();
     
     <!-- HTML2PDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <style>
         * { box-sizing: border-box; font-family: <?php echo t('font'); ?>; }
         body { background: #f8f9fa; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         
-        /* The Card Design */
         .ticket-card { background: white; max-width: 500px; width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; position: relative; }
         .ticket-header { background: #004b87; color: white; padding: 30px 20px; text-align: center; }
         .ticket-header h2 { margin: 0; font-size: 24px; }
@@ -61,60 +62,28 @@ $meeting = $result->fetch_assoc();
         .info-label { color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; margin-bottom: 5px;}
         .info-value { color: #333; font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         
+        /* New Status Badge Colors */
         .status-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; color: white; margin-top: 10px;}
-        .status-Upcoming { background: #e5b13a; color: #333; }
-        .status-Completed { background: #28a745; }
-        .status-Cancelled { background: #dc3545; }
+        .status-not_started { background: #6c757d; }
+        .status-pending { background: #e5b13a; color: #333; }
+        .status-in_progress { background: #004b87; }
+        .status-completed, .status-Completed { background: #28a745; }
 
-        .ticket-footer { background: #f1f1f1; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .ticket-footer { background: #f1f1f1; padding: 20px; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; }
         
-        .btn { padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px;}
+        .btn { padding: 10px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 8px; font-size: 14px;}
         .btn-print { background: #333; color: white; }
         .btn-print:hover { background: #000; }
         .btn-pdf { background: #dc3545; color: white; }
         .btn-pdf:hover { background: #c82333; }
         .btn-back { background: #004b87; color: white; }
         .btn-back:hover { background: #e5b13a; color: #333; }
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            /* Smart positioning based on language direction */
-            <?php echo $lang == 'ar' ? 'left: 30px;' : 'right: 30px;'; ?>
-            background-color: #e5b13a; /* Secondary Gold */
-            color: #333;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            opacity: 0; /* Hidden by default */
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .back-to-top:hover {
-            transform: translateY(-5px);
-            background-color: #004b87; /* Primary Blue */
-            color: #ffffff;
-        }
 
-        /* Print CSS - Hides buttons when physically printing */
+        /* Hide buttons during physical print */
         @media print {
             body { background: white; }
             .ticket-card { box-shadow: none; border: 1px solid #ccc; }
-            .ticket-footer { display: none; }
+            .ticket-footer { display: none !important; }
         }
     </style>
 </head>
@@ -150,49 +119,31 @@ $meeting = $result->fetch_assoc();
                 <div class="info-value"><i class="fa-solid fa-door-open" style="color: #004b87;"></i> <?php echo htmlspecialchars($meeting['room']); ?></div>
             </div>
 
+            <!-- FIXED STATUS BLOCK -->
             <div class="info-group">
                 <div class="info-label"><?php echo t('status'); ?></div>
-                <div class="status-badge status-<?php echo $meeting['status']; ?>">
+                <div class="status-badge status-<?php echo $m_status; ?>">
                     <?php 
-                        if($meeting['status'] == 'Upcoming') echo t('upcoming');
-                        elseif($meeting['status'] == 'Completed') echo t('completed');
-                        else echo t('cancelled');
+                        if ($m_status == 'not_started') echo '<i class="fa-solid fa-circle-pause"></i> ' . t('not_started');
+                        elseif ($m_status == 'pending') echo '<i class="fa-solid fa-hourglass-half"></i> ' . t('pending');
+                        elseif ($m_status == 'in_progress') echo '<i class="fa-solid fa-spinner"></i> ' . t('in_progress');
+                        elseif ($m_status == 'completed' || $m_status == 'Completed') echo '<i class="fa-solid fa-check-double"></i> ' . t('completed');
+                        else echo htmlspecialchars($m_status);
                     ?>
                 </div>
             </div>
         </div>
 
-        <!-- We added data-html2canvas-ignore so the PDF library automatically hides this area! -->
+        <!-- HTML2Canvas Ignore Tag included -->
         <div class="ticket-footer" data-html2canvas-ignore="true">
-            <a href="meeting_rooms.php" class="btn btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back'); ?></a>
-             <!-- NEW: Save as PDF Button -->
+            <a href="dashboard.php" class="btn btn-back"><i class="fa-solid fa-arrow-left"></i> <?php echo t('back_home'); ?></a>
+            
             <button onclick="saveAsPDF()" class="btn btn-pdf"><i class="fa-solid fa-file-pdf"></i> <?php echo t('save_pdf'); ?></button>
+            
         </div>
     </div>
-    <!-- Back to Top Button -->
-    <button id="backToTop" class="back-to-top" title="Go to top">
-        <i class="fa-solid fa-arrow-up"></i>
-    </button>
+
     <script>
-        // Back to Top Logic
-        const backToTopBtn = document.getElementById("backToTop");
-        
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.add("show");
-            } else {
-                backToTopBtn.classList.remove("show");
-            }
-        });
-        
-        backToTopBtn.addEventListener("click", () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        });
-        </script>
-     <script>
         function saveAsPDF() {
             // Grab the main card using its class name (Guaranteed to exist)
             const element = document.querySelector('.ticket-card');
@@ -216,6 +167,5 @@ $meeting = $result->fetch_assoc();
             html2pdf().from(element).set(opt).save();
         }
     </script>
-
 </body>
 </html>

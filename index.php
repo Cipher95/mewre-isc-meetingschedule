@@ -203,7 +203,7 @@ if (isset($_SESSION['username'])) {
 
             <ul class="nav-links" id="nav-menu">
                 <li><a href="profile.php"><?php echo t('my_profile'); ?></a></li>
-                
+                <li><a href="staff_list.php"><i class="fa-solid fa-address-book" style="color: var(--secondary-gold); margin:0 3px;"></i> <?php echo t('admin_mod_list'); ?></a></li>
                 
 
                 <?php if (isset($_SESSION['username'])): ?>
