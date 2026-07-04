@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="<?php echo $lang; ?>" dir="<?php echo t('dir'); ?>">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo t('login_title'); ?></title>
+    <title><?php echo t('login'); ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="login-box">
         <a href="?lang=<?php echo t('lang_toggle'); ?>" class="lang-switch"><i class="fa-solid fa-globe"></i> <?php echo t('lang_btn'); ?></a>
         
-        <h2><?php echo t('login_title'); ?></h2>
+        <h2><?php echo t('login'); ?></h2>
         <?php if($error) echo "<p class='error'>$error</p>"; ?>
         
         <form method="POST" action="">
