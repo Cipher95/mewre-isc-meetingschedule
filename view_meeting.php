@@ -18,11 +18,12 @@ $username = $_SESSION['username'];
 $role = $_SESSION['role'];
 
 // Fetch the meeting
-if ($role == 'User') {
+/*if ($role == 'User') {
     $sql = "SELECT * FROM meetings WHERE id = $id AND username = '$username'";
 } else {
     $sql = "SELECT * FROM meetings WHERE id = $id";
-}
+}*/
+$sql = "SELECT * FROM meetings";
 
 $result = $conn->query($sql);
 
@@ -108,16 +109,13 @@ $m_status = !empty($meeting['status']) ? $meeting['status'] : 'pending';
                     <div class="info-value"><i class="fa-regular fa-calendar" style="color: #004b87;"></i> <?php echo $meeting['meeting_date']; ?></div>
                 </div>
                 
-                <div class="info-group" style="width: 48%;">
-                    <div class="info-label"><?php echo t('time'); ?></div>
-                    <div class="info-group" style="width: 48%;">
+            <div class="info-group" style="width: 48%;">
                     <div class="info-label"><?php echo t('time'); ?></div>
                     <div class="info-value" style="font-size: 15px;">
                         <i class="fa-regular fa-clock" style="color: #004b87;"></i> 
                         <?php 
                         echo date("h:i A", strtotime($meeting['meeting_time'])) . ' <br> ' . date("h:i A", strtotime($meeting['end_time'])); 
                         ?>
-                    </div>
                 </div>
                 </div>
             </div>

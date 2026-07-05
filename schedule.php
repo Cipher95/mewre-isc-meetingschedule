@@ -228,8 +228,8 @@ $result = $conn->query($sql);
                         ?>
                     </td>
                     <td>
-                        <a href="edit_meeting.php?id=<?php echo $row['id']; ?>" class="btn-edit" title="<?php echo t('edit'); ?>"><i class="fa-solid fa-pen"></i></a>
-                        <a href="delete_meeting.php?id=<?php echo $row['id']; ?>" class="btn-delete" title="<?php echo t('delete'); ?>" onclick="return confirm('<?php echo t('confirm_delete'); ?>');"><i class="fa-solid fa-trash"></i></a>
+                        <a href="edit_meeting.php?id=<?php echo $row['id']; ?>" class="btn-edit" title="<?php echo t('edit'); ?>"><i class="fa-solid fa-pen"></i> <?php echo t('edit'); ?></a>
+                        <a href="delete_meeting.php?id=<?php echo $row['id']; ?>" class="btn-delete" title="<?php echo t('delete'); ?>" onclick="return confirm('<?php echo t('confirm_delete'); ?>');"><i class="fa-solid fa-trash"></i> <?php echo t('delete'); ?></a>
                     </td>
                 </tr>
                 <?php endwhile; ?>

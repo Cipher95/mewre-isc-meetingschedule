@@ -167,7 +167,7 @@ $result = $conn->query($sql);
                         ?>
                     </td>
                     <td>
-                        <a href="view_meeting.php?id=<?php echo $row['id']; ?>" class="btn-join"><i class="fa-solid fa-circle-info"></i> <?php echo t('join'); ?></a>
+                        <a href="view_meeting.php?id=<?php echo $row['id']; ?>" class="btn-join"><i class="fa-solid fa-circle-info"></i></a>
                     </td>
                 </tr>
                 <?php endwhile; ?>
