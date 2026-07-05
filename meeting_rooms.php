@@ -141,7 +141,11 @@ $result = $conn->query($sql);
                 <tr>
                     <td><strong><?php echo htmlspecialchars($row['title']); ?></strong></td>
                     <td><i class="fa-regular fa-calendar"></i> <?php echo $row['meeting_date']; ?></td>
-                    <td><i class="fa-regular fa-clock"></i> <?php echo date("h:i A", strtotime($row['meeting_time'])); ?></td>
+                    <td>
+                        <?php 
+                        echo date("h:i A", strtotime($row['meeting_time'])) . ' - ' . date("h:i A", strtotime($row['end_time'])); 
+                        ?>
+                    </td>
                     <td><?php echo htmlspecialchars($row['room']); ?></td>
                     <td>
                          <?php 
