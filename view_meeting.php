@@ -110,7 +110,15 @@ $m_status = !empty($meeting['status']) ? $meeting['status'] : 'pending';
                 
                 <div class="info-group" style="width: 48%;">
                     <div class="info-label"><?php echo t('time'); ?></div>
-                    <div class="info-value"><i class="fa-regular fa-clock" style="color: #004b87;"></i> <?php echo date("h:i A", strtotime($meeting['meeting_time'])); ?></div>
+                    <div class="info-group" style="width: 48%;">
+                    <div class="info-label"><?php echo t('time'); ?></div>
+                    <div class="info-value" style="font-size: 15px;">
+                        <i class="fa-regular fa-clock" style="color: #004b87;"></i> 
+                        <?php 
+                        echo date("h:i A", strtotime($meeting['meeting_time'])) . ' <br> ' . date("h:i A", strtotime($meeting['end_time'])); 
+                        ?>
+                    </div>
+                </div>
                 </div>
             </div>
 

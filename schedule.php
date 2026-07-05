@@ -201,7 +201,11 @@ $result = $conn->query($sql);
                     <td><i class="fa-solid fa-user" style="color: #666; margin: 0 5px;"></i> <?php echo htmlspecialchars($row['full_name']); ?></td>
                     <td><strong><?php echo htmlspecialchars($row['title']); ?></strong></td>
                     <td><?php echo $row['meeting_date']; ?></td>
-                    <td><?php echo date("h:i A", strtotime($row['meeting_time'])); ?></td>
+                    <td>
+                        <?php 
+                        echo date("h:i A", strtotime($row['meeting_time'])) . ' - ' . date("h:i A", strtotime($row['end_time'])); 
+                        ?>
+                    </td>
                     <td><?php echo htmlspecialchars($row['room']); ?></td>
                     <td>
                         <?php 

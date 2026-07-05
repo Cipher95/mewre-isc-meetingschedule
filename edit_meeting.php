@@ -21,11 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $conn->real_escape_string($_POST['title']);
     $date = $conn->real_escape_string($_POST['meeting_date']);
     $time = $conn->real_escape_string($_POST['meeting_time']);
+    $end_time = $conn->real_escape_string($_POST['end_time']); // NEW END TIME
     $room = $conn->real_escape_string($_POST['room']);
     $status = $conn->real_escape_string($_POST['status']);
 
-    $sql = "UPDATE meetings SET 
-            username='$emp_username', title='$title', meeting_date='$date', meeting_time='$time', room='$room', status='$status' 
+     $sql = "UPDATE meetings SET 
+            username='$emp_username', title='$title', meeting_date='$date', meeting_time='$time', end_time='$end_time', room='$room', status='$status' 
             WHERE id=$id";
     
     if($conn->query($sql)) {
@@ -80,8 +81,17 @@ $users_result = $conn->query("SELECT username, full_name FROM users");
             <label><?php echo t('date'); ?></label>
             <input type="date" name="meeting_date" value="<?php echo $meeting['meeting_date']; ?>" required>
 
-            <label><?php echo t('time'); ?></label>
-            <input type="time" name="meeting_time" value="<?php echo $meeting['meeting_time']; ?>" required>
+            <!-- NEW FROM/TO TIME FIELDS -->
+            <div style="display: flex; gap: 15px;">
+                <div style="width: 50%;">
+                    <label><?php echo t('from'); ?></label>
+                    <input type="time" name="meeting_time" value="<?php echo $meeting['meeting_time']; ?>" required>
+                </div>
+                <div style="width: 50%;">
+                    <label><?php echo t('to'); ?></label>
+                    <input type="time" name="end_time" value="<?php echo $meeting['end_time']; ?>" required>
+                </div>
+            </div>
 
             <label><?php echo t('room'); ?></label>
             <input type="text" name="room" value="<?php echo htmlspecialchars($meeting['room']); ?>" required>

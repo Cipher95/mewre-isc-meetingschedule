@@ -14,11 +14,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $conn->real_escape_string($_POST['title']);
     $date = $conn->real_escape_string($_POST['meeting_date']);
     $time = $conn->real_escape_string($_POST['meeting_time']);
+     $end_time = $conn->real_escape_string($_POST['end_time']); // NEW END TIME
     $room = $conn->real_escape_string($_POST['room']);
     $status = $conn->real_escape_string($_POST['status']);
 
-    $sql = "INSERT INTO meetings (username, title, meeting_date, meeting_time, room, status) 
-            VALUES ('$emp_username', '$title', '$date', '$time', '$room', '$status')";
+    $sql = "INSERT INTO meetings (username, title, meeting_date, meeting_time, end_time, room, status) 
+            VALUES ('$emp_username', '$title', '$date', '$time', '$end_time', '$room', '$status')";
     
     if($conn->query($sql)) {
         header("Location: schedule.php");
@@ -67,8 +68,17 @@ $users_result = $conn->query("SELECT username, full_name FROM users");
             <label><?php echo t('date'); ?></label>
             <input type="date" name="meeting_date" required>
 
-            <label><?php echo t('time'); ?></label>
-            <input type="time" name="meeting_time" required>
+            <!-- NEW FROM/TO TIME FIELDS -->
+            <div style="display: flex; gap: 15px;">
+                <div style="width: 50%;">
+                    <label><?php echo t('from'); ?></label>
+                    <input type="time" name="meeting_time" required>
+                </div>
+                <div style="width: 50%;">
+                    <label><?php echo t('to'); ?></label>
+                    <input type="time" name="end_time" required>
+                </div>
+            </div>
 
             <label><?php echo t('room'); ?></label>
             <input type="text" name="room" required>
