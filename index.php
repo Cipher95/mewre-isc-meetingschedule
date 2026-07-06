@@ -179,6 +179,41 @@ if (isset($_SESSION['username'])) {
             from { transform: translateX(<?php echo $lang == 'ar' ? '-120%' : '120%'; ?>); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
+        
+         /* Go to Bottom Button */
+        .go-to-bottom {
+            position: fixed;
+            bottom: 30px; 
+            /* Smart positioning for English/Arabic */
+            <?php echo $lang == 'ar' ? 'left: 30px;' : 'right: 30px;'; ?>
+            background-color: #004b87; /* Primary Blue */
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .go-to-bottom.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .go-to-bottom:hover {
+            transform: translateY(5px); /* Animates downwards */
+            background-color: #e5b13a; /* Secondary Gold */
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -269,6 +304,22 @@ if (isset($_SESSION['username'])) {
                 </div>
             </a>
             <?php endif; ?>
+             <!-- Location Card (With Embed Slot) -->
+            <a href="location.php" style="text-decoration: none; color: inherit;">
+            <div class="card">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <h3><?php echo t('location'); ?></h3>
+                </div>
+            </a>
+            <!-- Weather Card (With Embed Slot) -->
+            <a href="weather.php" style="text-decoration: none; color: inherit;">
+            <div class="card">
+                <i class="fa-solid fa-cloud-sun" style="color: #00a8ff;"></i>
+                <h3><?php echo t('weather'); ?></h3>
+                <p><?php echo t('weather_desc'); ?></p>
+                </div>
+            </a>
+
             <a href="calendar.php" style="text-decoration: none; color: inherit;">
                 <div class="card">
                     <i class="fa-solid fa-calendar-days"></i>
@@ -290,10 +341,13 @@ if (isset($_SESSION['username'])) {
     <!-- Footer -->
     <footer>
         <p><?php echo t('footer'); ?></p>
-        <!-- Back to Top Button -->
-    </footer>
-	<button id="backToTop" class="back-to-top" title="Go to top">
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" title="Go to top">
         <i class="fa-solid fa-arrow-up"></i>
+    </button>
+    <!-- Go to Bottom Button -->
+    <button id="goToBottom" class="go-to-bottom" title="<?php echo $lang == 'ar' ? 'النزول للأسفل' : 'Go to bottom'; ?>">
+        <i class="fa-solid fa-arrow-down"></i>
     </button>
     <!-- JavaScript for Live Clock & Hamburger Menu -->
     <script>
@@ -354,6 +408,38 @@ if (isset($_SESSION['username'])) {
         backToTopBtn.addEventListener("click", () => {
             window.scrollTo({
                 top: 0,
+                behavior: "smooth"
+            });
+        });
+    </script>
+        <script>
+        // Go to Bottom Logic
+        const goToBottomBtn = document.getElementById("goToBottom");
+        
+        function checkScrollPosition() {
+            // 1. If the page is too short to scroll, hide it
+            if (document.body.scrollHeight <= window.innerHeight) {
+                goToBottomBtn.classList.add("hide");
+            } 
+            // 2. If the user has scrolled to the absolute bottom, hide it
+            else if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 50) {
+                goToBottomBtn.classList.add("hide");
+            } 
+            // 3. Otherwise, show it
+            else {
+                goToBottomBtn.classList.remove("hide");
+            }
+        }
+
+        // Run checks on scroll, on page load, and if screen size changes
+        window.addEventListener("scroll", checkScrollPosition);
+        window.addEventListener("resize", checkScrollPosition);
+        document.addEventListener("DOMContentLoaded", checkScrollPosition);
+        
+        // Smooth scroll to bottom when clicked
+        goToBottomBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: document.body.scrollHeight,
                 behavior: "smooth"
             });
         });
