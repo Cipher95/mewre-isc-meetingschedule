@@ -54,7 +54,7 @@ if (!isset($_SESSION['username'])) {
             gap: 8px;
         }
         .btn-back { display: inline-block; margin-top: 10px; background: #004b87; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;}
-        .container { /*max-width: 900px;*/ width: 50%; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         h2 { color: #004b87; margin-bottom: 30px; text-align: center; border-bottom: 2px solid #eee; padding-bottom: 15px;}
          /* Back to Top Button */
         .back-to-top {
