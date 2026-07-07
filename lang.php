@@ -133,10 +133,14 @@ $translations = [
         'user_deleted_success' => 'User and their scheduled meetings have been successfully deleted.',
         'back' => 'Back',
         'location' => 'HQ Location',
-        'location_desc' => 'Shuwaikh Industrial, Kuwait.',
+        'location_desc' => 'Display the Headquarter Location Map.',
         'weather' => 'Live Weather',
         'fetching_weather' => 'Fetching live data...',
-        'weather_desc' => 'Real-time weather conditions.'
+        'weather_desc' => 'Real-time weather conditions.',
+        'contact_us' => 'Contact Us',
+        'contactUs_desc' => 'Contact Supervisor or Management.',
+        'contactUs_para_1' => 'If you have forgotten your password, please contact the administrator at h.alobaidain95@mew.gov.kw and include your username in your email. The administrator will issue you a temporary password. Once you log in, you can change your password at any time.',
+        'contactUs_para_2' => 'If you want to book a meeting, please contact any moderator via email or WhatsApp.'
     ],
     'ar' => [
         'dir' => 'rtl',
@@ -254,10 +258,14 @@ $translations = [
         'user_deleted_success' => 'تم حذف المستخدم واجتماعاته المجدولة بنجاح.',
         'back' => 'العودة',
         'location' => 'موقع المقر',
-        'location_desc' => 'الشويخ الصناعية، دولة الكويت.',
+        'location_desc' => 'عرض خارطة موقع المقر.',
         'weather' => 'حالة الطقس',
         'fetching_weather' => 'جاري جلب البيانات...',
-        'weather_desc' => 'الظروف الجوية الحالية والمباشرة.'
+        'weather_desc' => 'الظروف الجوية الحالية والمباشرة.',
+        'contact_us' => 'تواصل معانا',
+        'contactUs_desc' => 'للتواصل مع المشرف أو الإدارة.',
+        'contactUs_para_1' => 'إذا نسيت كلمة المرور، يُرجى التواصل مع مسؤول النظام عبر البريد الإلكتروني h.alobaidain95@mew.gov.kw، مع تضمين اسم المستخدم الخاص بك في الرسالة. سيقوم مسؤول النظام بإصدار كلمة مرور مؤقتة لك. وبعد تسجيل الدخول، يمكنك تغيير كلمة المرور في أي وقت.',
+        'contactUs_para_2' => 'إذا كنت ترغب في حجز اجتماع، يُرجى التواصل مع أيٍّ من المشرفين عبر البريد الإلكتروني أو الواتساب.'
     ]
 ];
 

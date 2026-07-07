@@ -309,8 +309,17 @@ if (isset($_SESSION['username'])) {
             <div class="card">
                 <i class="fa-solid fa-map-location-dot"></i>
                 <h3><?php echo t('location'); ?></h3>
+                <p><?php echo t('location_desc'); ?></p>
                 </div>
             </a>
+            
+            <!--<a href="workflow.php" style="text-decoration: none; color: inherit;">
+            <div class="card">
+                <i class="fa-solid fa-diagram-project"></i>
+                <h3>Workflow</h3>
+                <p>https://workflow.mew.gov.kw/Index.aspx</p>
+                </div>
+            </a>-->
             <!-- Weather Card (With Embed Slot) -->
             <a href="weather.php" style="text-decoration: none; color: inherit;">
             <div class="card">
@@ -333,6 +342,13 @@ if (isset($_SESSION['username'])) {
                     <i class="fa-solid fa-chart-line"></i>
                     <h3><?php echo t('reports'); ?></h3>
                     <p><?php echo t('reports_desc'); ?></p>
+                </div>
+            </a>
+            <a href="contact_us.php" style="text-decoration: none; color: inherit;">
+                <div class="card">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <h3><?php echo t('contact_us'); ?></h3>
+                    <p><?php echo t('contactUs_desc'); ?></p>
                 </div>
             </a>
         </div>
