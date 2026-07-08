@@ -140,7 +140,7 @@ $translations = [
         'contact_us' => 'Contact Us',
         'contactUs_desc' => 'Contact Supervisor or Management.',
         'contactUs_para_1' => 'If you have forgotten your password, please contact the administrator at h.alobaidain95@mew.gov.kw and include your username in your email. The administrator will issue you a temporary password. Once you log in, you can change your password at any time.',
-        'contactUs_para_2' => 'If you want to book a meeting, please contact any moderator via email or WhatsApp.'
+        'contactUs_para_2' => 'If you would like to book a meeting, please contact any moderator via email or WhatsApp. Be sure to include your username in your email or message so the moderator can book your meeting. Also, check the Meeting Rooms table to choose the appropriate time slot.'
     ],
     'ar' => [
         'dir' => 'rtl',
@@ -265,7 +265,7 @@ $translations = [
         'contact_us' => 'تواصل معانا',
         'contactUs_desc' => 'للتواصل مع المشرف أو الإدارة.',
         'contactUs_para_1' => 'إذا نسيت كلمة المرور، يُرجى التواصل مع مسؤول النظام عبر البريد الإلكتروني h.alobaidain95@mew.gov.kw، مع تضمين اسم المستخدم الخاص بك في الرسالة. سيقوم مسؤول النظام بإصدار كلمة مرور مؤقتة لك. وبعد تسجيل الدخول، يمكنك تغيير كلمة المرور في أي وقت.',
-        'contactUs_para_2' => 'إذا كنت ترغب في حجز اجتماع، يُرجى التواصل مع أيٍّ من المشرفين عبر البريد الإلكتروني أو الواتساب.'
+        'contactUs_para_2' => 'إإذا كنت ترغب في حجز اجتماع، يُرجى التواصل مع أيٍّ من المشرفين عبر البريد الإلكتروني أو تطبيق واتساب. احرص على تضمين اسم المستخدم الخاص بك في رسالتك حتى يتمكن المشرف من حجز الاجتماع لك. كما يُرجى مراجعة جدول غرف الاجتماعات لاختيار الموعد الزمني المناسب.'
     ]
 ];
 
