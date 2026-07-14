@@ -353,6 +353,47 @@ if (isset($_SESSION['username'])) {
             </a>
         </div>
     </section>
+    <!-- ========================================== -->
+    <!-- NEW: GEMINI AI AGENTS SECTION              -->
+    <!-- ========================================== -->
+    <?php if (isset($_SESSION['username'])): ?>
+    <section id="ai-agents" class="services" style="margin-top: 20px; background: #fff; padding: 60px 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); max-width: 1200px;">
+        <h2><i class="fa-solid fa-sparkles" style="color: #00a8ff; margin: 0 10px;"></i> <?php echo t('ai_agents'); ?></h2>
+        
+        <div class="grid" style="justify-content: center; display: flex; flex-wrap: wrap; gap: 30px;">
+            
+            <!-- 1. Standard User Gemini Agent (RESTRICTED: Only visible to Admins & Moderators) -->
+            <?php if ($_SESSION['role'] == 'User'): ?>
+            <div class="card" style="border-top: 4px solid #00a8ff; flex: 1; min-width: 300px; max-width: 500px;">
+                <div style="font-size: 50px; margin-bottom: 15px; background: linear-gradient(45deg, #004b87, #00a8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <h3><?php echo t('user_agent'); ?></h3>
+                <p><?php echo t('user_agent_desc'); ?></p>
+                <a href="assistant.php" class="btn btn-primary" style="margin-top: 20px; display: inline-block; width: 100%;">
+                    <i class="fa-solid fa-message"></i> <?php echo t('chat_now'); ?>
+                </a>
+            </div>
+            <?php endif; ?>
+
+            <!-- 2. Moderator Gemini Agent (RESTRICTED: Only visible to Admins & Moderators) -->
+            <?php if ($_SESSION['role'] == 'Admin' || $_SESSION['role'] == 'Moderator'): ?>
+            <div class="card" style="border-top: 4px solid #dc3545; flex: 1; min-width: 300px; max-width: 500px;">
+                <div style="font-size: 50px; margin-bottom: 15px; background: linear-gradient(45deg, #dc3545, #e5b13a); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <h3><?php echo t('mod_agent'); ?></h3>
+                <p><?php echo t('mod_agent_desc'); ?></p>
+                <a href="copilot.php" class="btn btn-primary" style="background: #333; color: white; margin-top: 20px; display: inline-block; width: 100%;">
+                    <i class="fa-solid fa-bolt"></i> <?php echo t('chat_now'); ?>
+                </a>
+            </div>
+            <?php endif; ?>
+
+        </div>
+    </section>
+    <?php endif; ?>
+    <!-- ========================================== -->
 
     <!-- Footer -->
     <footer>
