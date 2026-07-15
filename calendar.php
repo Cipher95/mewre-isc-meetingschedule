@@ -112,7 +112,7 @@ if (!isset($_SESSION['username'])) {
         <div class="event-item">
             <div class="event-date"><span>15</span> July</div>
             <div class="event-details">
-                <h3><?php echo t('deployment'); ?>: Gemini 1.5 Pro</h3>
+                <h3><?php echo t('deployment'); ?>: MEW ISC | Meeting Schedule Website v1.5</h3>
                 <p><i class="fa-regular fa-clock"></i> 12:00 PM</p>
             </div>
         </div>
