@@ -9,7 +9,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] == 'User') {
 }
 
 if (!isset($_GET['id'])) {
-    header("Location: schedules.php");
+    header("Location: schedule.php");
     exit();
 }
 
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     WHERE id=$id";
             
             if($conn->query($sql)) {
-                header("Location: schedules.php");
+                header("Location: schedule.php");
                 exit();
             }
         }
@@ -138,7 +138,7 @@ $users_result = $conn->query("SELECT username, full_name FROM users ORDER BY ful
             </select>
 
             <button type="submit" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> <?php echo t('save'); ?></button>
-            <a href="schedules.php" class="btn-cancel"><?php echo t('cancel'); ?></a>
+            <a href="schedule.php" class="btn-cancel"><?php echo t('cancel'); ?></a>
         </form>
     </div>
 </body>

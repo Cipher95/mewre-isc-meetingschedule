@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     VALUES ('$emp_username', '$title', '$date', '$time', '$end_time', '$room', '$status')";
             
             if($conn->query($sql)) {
-                header("Location: schedules.php");
+                header("Location: schedule.php");
                 exit();
             }
         }
@@ -131,7 +131,7 @@ $users_result = $conn->query("SELECT username, full_name FROM users ORDER BY ful
             </select>
 
             <button type="submit" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> <?php echo t('save'); ?></button>
-            <a href="schedules.php" class="btn-cancel"><?php echo t('cancel'); ?></a>
+            <a href="schedule.php" class="btn-cancel"><?php echo t('cancel'); ?></a>
         </form>
     </div>
 </body>

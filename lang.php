@@ -152,7 +152,9 @@ $translations = [
         'clear_chat' => 'Clear Chat',
         'ai_typing' => 'Gemini is thinking...',
         'hello_user' => 'Hello! I am your Employee Assistant powered by Gemini. How can I help you with your meetings or IT inquiries today?',
-        'hello_mod' => 'Welcome Copilot. I am ready to assist you with schedule analysis, IT memos, and system management.'
+        'hello_mod' => 'Welcome Copilot. I am ready to assist you with schedule analysis, IT memos, and system management.',
+        'conflict_error' => 'Conflict detected! The selected time overlaps with an existing meeting for this employee or room.',
+        'time_error' => 'The end time must be later than the start time.'
     ],
     'ar' => [
         'dir' => 'rtl',
@@ -289,7 +291,9 @@ $translations = [
         'clear_chat' => 'مسح المحادثة',
         'ai_typing' => 'Gemini يفكر...',
         'hello_user' => 'مرحباً! أنا مساعدك الذكي من Gemini. كيف يمكنني مساعدتك في جداولك أو استفساراتك التقنية اليوم؟',
-        'hello_mod' => 'أهلاً بك. أنا مستعد لمساعدتك في تحليل الجداول، صياغة التعاميم، وإدارة النظام.'
+        'hello_mod' => 'أهلاً بك. أنا مستعد لمساعدتك في تحليل الجداول، صياغة التعاميم، وإدارة النظام.',
+        'conflict_error' => 'تم اكتشاف تعارض! الوقت المحدد يتعارض مع اجتماع حالي لهذا الموظف أو القاعة.',
+        'time_error' => 'وقت الانتهاء يجب أن يكون بعد وقت البدء.'
     ]
 ];
 
