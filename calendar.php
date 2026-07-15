@@ -110,10 +110,10 @@ if (!isset($_SESSION['username'])) {
         </div>
         
         <div class="event-item">
-            <div class="event-date"><span>01</span> January</div>
+            <div class="event-date"><span>15</span> July</div>
             <div class="event-details">
-                <h3></h3>
-                <p><i class="fa-regular fa-clock"></i> 12:00 AM</p>
+                <h3><?php echo t('deployment'); ?>: Gemini 1.5 Pro</h3>
+                <p><i class="fa-regular fa-clock"></i> 12:00 PM</p>
             </div>
         </div>
 
