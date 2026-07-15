@@ -168,7 +168,7 @@ if (!isset($_SESSION['username']) || !in_array($_SESSION['role'], ['Admin', 'Mod
 
             // Connect to PHP Back-End
             try {
-                const response = await fetch('gemini_api.php', {
+                const response = await fetch('gemini_api2.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: text })
